@@ -35,27 +35,27 @@ class HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(items: [
         BottomNavigationBarItem(
             // ignore: deprecated_member_use
-            title: Text('Home'),
+            title: Text('Home Ekranı'),
             icon: Icon(Icons.home),
             backgroundColor: Colors.orange),
         BottomNavigationBarItem(
             // ignore: deprecated_member_use
-            title: Text('Spor'),
+            title: Text('Spor Ekranı'),
             icon: Icon(Icons.sports),
             backgroundColor: Colors.orange),
         BottomNavigationBarItem(
             // ignore: deprecated_member_use
-            title: Text('Diyet'),
+            title: Text('Diyet Ekranı'),
             icon: Icon(Icons.calendar_today),
             backgroundColor: Colors.orange),
         BottomNavigationBarItem(
             // ignore: deprecated_member_use
-            title: Text('Rapor'),
+            title: Text('Rapor Ekranı'),
             icon: Icon(Icons.report),
             backgroundColor: Colors.orange),
         BottomNavigationBarItem(
             // ignore: deprecated_member_use
-            title: Text('Profil'),
+            title: Text('Profil Ekranı'),
             icon: Icon(Icons.person),
             backgroundColor: Colors.orange)
       ], currentIndex: _selectedIndex, onTap: _onItemTap),
