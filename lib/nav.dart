@@ -12,7 +12,6 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   int _selectedIndex = 0;
-
   List<Widget> _widgetOptions = <Widget>[
     Genel(),
     Spor(),
@@ -30,35 +29,40 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.orange, title: Text('Health')),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Text('Home Ekranı'),
-            icon: Icon(Icons.home),
-            backgroundColor: Colors.orange),
-        BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Text('Spor Ekranı'),
-            icon: Icon(Icons.sports),
-            backgroundColor: Colors.orange),
-        BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Text('Diyet Ekranı'),
-            icon: Icon(Icons.calendar_today),
-            backgroundColor: Colors.orange),
-        BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Text('Rapor Ekranı'),
-            icon: Icon(Icons.report),
-            backgroundColor: Colors.orange),
-        BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Text('Profil Ekranı'),
-            icon: Icon(Icons.person),
-            backgroundColor: Colors.orange)
-      ], currentIndex: _selectedIndex, onTap: _onItemTap),
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
+          selectedItemColor: Colors.orangeAccent,
+          unselectedItemColor: Colors.grey,
+          items: [
+            BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Text('Home Ekranı'),
+                icon: Icon(Icons.home),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Text('Spor Ekranı'),
+                icon: Icon(Icons.sports),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Text('Diyet Ekranı'),
+                icon: Icon(Icons.calendar_today),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Text('Rapor Ekranı'),
+                icon: Icon(Icons.report),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Text('Profil Ekranı'),
+                icon: Icon(Icons.person),
+                backgroundColor: Colors.black),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTap),
     );
   }
 }
