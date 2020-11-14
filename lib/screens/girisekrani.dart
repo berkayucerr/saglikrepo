@@ -60,7 +60,7 @@ class KayitGirisState extends State<KayitGiris> {
   Widget _GirisEkrani() => Scaffold(
       appBar: AppBar(
         title: Text(
-          "Kayit Ol",
+          "Giriş Yap",
           style: TextStyle(color: Colors.orangeAccent),
         ),
         centerTitle: true,
