@@ -9,5 +9,6 @@ class yiyecekler {
     this.id = _id;
     this.isim = _isim;
     this.kalori = _kalori;
+    //veritabanı kodu gelecek
   }
 }

@@ -7,8 +7,14 @@ class KayitGiris extends StatefulWidget {
 }
 
 class KayitGirisState extends State<KayitGiris> {
-  String isim, email, sifre;
-  String textIsim = "", textEmail = "", textSifre = "";
+  bool _loggedIn = false;
+  String isim, email, sifre, boy, yas, kilo;
+  String textIsim = "",
+      textEmail = "",
+      textSifre = "",
+      textKilo = "",
+      textBoy = "",
+      textYas = "";
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -18,49 +24,54 @@ class KayitGirisState extends State<KayitGiris> {
 
   Widget KarsilamaEkrani() {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Sağlık Asistanı',
-          style: TextStyle(color: Colors.orangeAccent),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-      ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            child: RaisedButton(
-              color: Colors.grey,
-              child: Text("Kayıt Ol"),
-              onPressed: () => _kayitaYonlendir(),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.orangeAccent, width: 2),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
+        appBar: AppBar(
+          title: Text(
+            'Sağlık Asistanı',
+            style: TextStyle(color: Colors.orangeAccent),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            child: RaisedButton(
-              color: Colors.grey,
-              child: Text("Giriş Yap"),
-              onPressed: () => _giriseYonlendir(),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.orangeAccent, width: 2),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
-          )
-        ],
-      )),
-    );
+          centerTitle: true,
+          backgroundColor: Colors.black,
+        ),
+        body: Scaffold(
+          body: Container(
+              color: Colors.black,
+              child: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: RaisedButton(
+                      color: Colors.grey,
+                      child: Text("Kayıt Ol"),
+                      onPressed: () => _kayitaYonlendir(context),
+                      shape: RoundedRectangleBorder(
+                          side:
+                              BorderSide(color: Colors.orangeAccent, width: 2),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: RaisedButton(
+                      color: Colors.grey,
+                      child: Text("Giriş Yap"),
+                      onPressed: () => _giriseYonlendir(context),
+                      shape: RoundedRectangleBorder(
+                          side:
+                              BorderSide(color: Colors.orangeAccent, width: 2),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                    ),
+                  )
+                ],
+              ))),
+        ));
   }
 
   Widget _GirisEkrani() => Scaffold(
       appBar: AppBar(
         title: Text(
-          "Kayit Ol",
+          "Giriş Yap",
           style: TextStyle(color: Colors.orangeAccent),
         ),
         centerTitle: true,
@@ -111,7 +122,7 @@ class KayitGirisState extends State<KayitGiris> {
                       child: RaisedButton(
                         color: Colors.grey,
                         child: Text("Giriş Yap"),
-                        onPressed: () => _loginController(),
+                        onPressed: () => _loginController(context),
                         shape: RoundedRectangleBorder(
                             side: BorderSide(
                                 color: Colors.orangeAccent, width: 2),
@@ -179,6 +190,54 @@ class KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Boyunuz",
+                      hintText: "Boy",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.length < 3) return "Boy alanı";
+                    return null;
+                  },
+                  onSaved: (data) => boy = data,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Yaş",
+                      hintText: "Yaş",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.length < 3) return "Yaş alanı ";
+                    return null;
+                  },
+                  onSaved: (data) => yas = data,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Kilonuz",
+                      hintText: "Kilo",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.length < 3) return "Kilo alanı ";
+                    return null;
+                  },
+                  onSaved: (data) => kilo = data,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
@@ -197,7 +256,7 @@ class KayitGirisState extends State<KayitGiris> {
                       child: RaisedButton(
                         color: Colors.grey,
                         child: Text("Kayıt Ol"),
-                        onPressed: () => _saveFormData(),
+                        onPressed: () => _saveFormData(context),
                         shape: RoundedRectangleBorder(
                             side: BorderSide(
                                 color: Colors.orangeAccent, width: 2),
@@ -213,18 +272,24 @@ class KayitGirisState extends State<KayitGiris> {
         ),
       ));
 
-  void _saveFormData() {
+  void _saveFormData(BuildContext context2) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+
       setState(() {
         textIsim = isim;
         textEmail = email;
-        _yonlendir();
+        textYas = yas;
+        textBoy = boy;
+        textKilo = kilo;
+        _loggedIn = true;
+        _yonlendir(context2);
       });
     }
   }
 
-  void _yonlendir() {
+  void _yonlendir(BuildContext context2) {
+    Navigator.pop(context2);
     Navigator.pop(context);
     Navigator.push(
         context,
@@ -233,23 +298,31 @@ class KayitGirisState extends State<KayitGiris> {
         ));
   }
 
-  void _giriseYonlendir() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => _GirisEkrani(),
-        ));
+  void _giriseYonlendir(BuildContext context2) {
+    if (_loggedIn)
+      Navigator.pop(context2);
+    else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => _GirisEkrani(),
+          ));
+    }
   }
 
-  void _kayitaYonlendir() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => _KayitEkrani(),
-        ));
+  void _kayitaYonlendir(BuildContext context2) {
+    if (_loggedIn)
+      Navigator.pop(context2);
+    else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => _KayitEkrani(),
+          ));
+    }
   }
 
-  void _loginController() {
+  void _loginController(BuildContext context2) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
 
@@ -257,7 +330,7 @@ class KayitGirisState extends State<KayitGiris> {
         textEmail = email;
         textSifre = sifre;
         if (textSifre == "123" && textEmail == "asd@gmail.com") {
-          _yonlendir();
+          _yonlendir(context2);
         } else {
           return 'Email ve Şifre Yanlış!';
         }

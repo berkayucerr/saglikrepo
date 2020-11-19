@@ -26,6 +26,23 @@ class _RaporState extends State {
                 padding: EdgeInsets.only(top: 10.0),
                 width: 200,
                 height: 600,
+                child: Text('Haftalık Rapor'),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.black, Colors.orange]),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(27.0),
+                        bottomRight: Radius.circular(27.0),
+                        topLeft: Radius.circular(27.0),
+                        topRight: Radius.circular(27.0))),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 10.0),
+                width: 200,
+                height: 600,
+                child: Text('Aylık Rapor'),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.bottomCenter,

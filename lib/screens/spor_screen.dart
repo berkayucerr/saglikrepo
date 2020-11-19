@@ -1,4 +1,4 @@
-import 'package:asistan_saglik/dosyalar/sporlistesi.dart';
+import 'package:asistan_saglik/screens/yenisporolustur.dart';
 import 'package:flutter/material.dart';
 
 class Spor extends StatefulWidget {
@@ -16,12 +16,7 @@ class _SporState extends State {
 }
 
 Widget AktiviteListesi(BuildContext context) {
-  List<sporlistesi> aktivite_listesi = new List();
-  aktivite_listesi.add(new sporlistesi("Koşu", 10));
-  aktivite_listesi.add(new sporlistesi("Yürüyüş", 25.9));
-  aktivite_listesi.add(new sporlistesi("Yürüyüş", 35.7));
-  aktivite_listesi.add(new sporlistesi("Koşu", 10));
-  aktivite_listesi.add(new sporlistesi("Bisiklet", 135.5));
+  List aktivite_listesi = new List();
 
   return Scaffold(
       appBar: AppBar(
@@ -58,7 +53,7 @@ Widget AktiviteListesi(BuildContext context) {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AktiviteEkle()),
+            MaterialPageRoute(builder: (context) => Yenispor()),
           );
         },
       ));
