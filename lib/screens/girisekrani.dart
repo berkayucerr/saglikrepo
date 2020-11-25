@@ -197,7 +197,7 @@ class KayitGirisState extends State<KayitGiris> {
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.length < 3) return "Boy alanı";
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
                   onSaved: (data) => boy = data,
@@ -213,7 +213,7 @@ class KayitGirisState extends State<KayitGiris> {
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.length < 3) return "Yaş alanı ";
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
                   onSaved: (data) => yas = data,
@@ -229,7 +229,7 @@ class KayitGirisState extends State<KayitGiris> {
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.length < 3) return "Kilo alanı ";
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
                   onSaved: (data) => kilo = data,
