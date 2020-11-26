@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "324955840490",
+    "firebase_url": "https://saglikasistani-675be.firebaseio.com",
+    "project_id": "saglikasistani-675be",
+    "storage_bucket": "saglikasistani-675be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324955840490:android:7653b7e3ffee05d13ddc93",
+        "android_client_info": {
+          "package_name": "com.example.asistan_saglik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324955840490-bvir23vp605e9cammk5bcnao0j1870qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwGgR5GxI3sfPuIeRBRnxW8Dm6ptm9INM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324955840490-bvir23vp605e9cammk5bcnao0j1870qh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

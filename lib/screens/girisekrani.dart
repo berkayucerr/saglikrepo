@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../nav.dart';
 
@@ -8,14 +9,8 @@ class KayitGiris extends StatefulWidget {
 
 class KayitGirisState extends State<KayitGiris> {
   bool _loggedIn = false;
-  String isim, email, sifre, boy, yas, kilo;
-  String textIsim = "",
-      textEmail = "",
-      textSifre = "",
-      textKilo = "",
-      textBoy = "",
-      textYas = "";
-  final formKey = GlobalKey<FormState>();
+  String _isim, _email, _sifre, _boy, _yas, _kilo;
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +77,6 @@ class KayitGirisState extends State<KayitGiris> {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
-            key: formKey,
             child: ListView(
               children: <Widget>[
                 TextFormField(
@@ -98,7 +92,11 @@ class KayitGirisState extends State<KayitGiris> {
                       return "Geçerli bir eposta adresi giriniz";
                     return null;
                   },
-                  onSaved: (data) => email = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -112,7 +110,11 @@ class KayitGirisState extends State<KayitGiris> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue),
                       )),
-                  onSaved: (data) => sifre = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _sifre = value.trim();
+                    });
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +153,6 @@ class KayitGirisState extends State<KayitGiris> {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
-            key: formKey,
             child: ListView(
               children: <Widget>[
                 TextFormField(
@@ -166,7 +167,11 @@ class KayitGirisState extends State<KayitGiris> {
                       return "İsim alanı en az 3 karakter olmalıdır";
                     return null;
                   },
-                  onSaved: (data) => isim = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _isim = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -184,7 +189,11 @@ class KayitGirisState extends State<KayitGiris> {
                       return "Geçerli bir eposta adresi giriniz";
                     return null;
                   },
-                  onSaved: (data) => email = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -200,7 +209,11 @@ class KayitGirisState extends State<KayitGiris> {
                     if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
-                  onSaved: (data) => boy = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _boy = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -216,7 +229,11 @@ class KayitGirisState extends State<KayitGiris> {
                     if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
-                  onSaved: (data) => yas = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _yas = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -232,7 +249,11 @@ class KayitGirisState extends State<KayitGiris> {
                     if (value.isEmpty) return "Boş Geçmeyiniz";
                     return null;
                   },
-                  onSaved: (data) => kilo = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _kilo = value.trim();
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -246,7 +267,11 @@ class KayitGirisState extends State<KayitGiris> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue),
                       )),
-                  onSaved: (data) => sifre = data,
+                  onChanged: (value) {
+                    setState(() {
+                      _sifre = value.trim();
+                    });
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -273,19 +298,12 @@ class KayitGirisState extends State<KayitGiris> {
       ));
 
   void _saveFormData(BuildContext context2) {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
-
-      setState(() {
-        textIsim = isim;
-        textEmail = email;
-        textYas = yas;
-        textBoy = boy;
-        textKilo = kilo;
-        _loggedIn = true;
-        _yonlendir(context2);
-      });
-    }
+    auth
+        .createUserWithEmailAndPassword(email: _email, password: _sifre)
+        .then((_) {
+      _loggedIn = true;
+      _yonlendir(context2);
+    });
   }
 
   void _yonlendir(BuildContext context2) {
@@ -323,18 +341,8 @@ class KayitGirisState extends State<KayitGiris> {
   }
 
   void _loginController(BuildContext context2) {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
-
-      setState(() {
-        textEmail = email;
-        textSifre = sifre;
-        if (textSifre == "123" && textEmail == "asd@gmail.com") {
-          _yonlendir(context2);
-        } else {
-          return 'Email ve Şifre Yanlış!';
-        }
-      });
-    }
+    auth.signInWithEmailAndPassword(email: _email, password: _sifre).then((_) {
+      _yonlendir(context2);
+    });
   }
 }

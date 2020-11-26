@@ -1,6 +1,6 @@
 class kullanicibilgileri {
   String isim, mail, boy, yas, kilo;
-  kullanicibilgileri() {}
+  kullanicibilgileri();
   void kayit(String isim, String mail, String boy, String yas, String kilo) {
     this.isim = isim;
     this.mail = mail;

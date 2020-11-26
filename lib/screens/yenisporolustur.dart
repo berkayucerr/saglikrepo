@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:asistan_saglik/dosyalar/spor.dart';
 import 'package:flutter/material.dart';
 
