@@ -1,4 +1,4 @@
-import 'package:asistan_saglik/screens/yenisporolustur.dart';
+import 'yenisporolustur.dart';
 import 'package:flutter/material.dart';
 
 class Spor extends StatefulWidget {

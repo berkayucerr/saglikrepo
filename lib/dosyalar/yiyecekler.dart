@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class yiyecekler {
   int id = 0;
   bool value = false;
