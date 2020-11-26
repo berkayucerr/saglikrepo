@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="asistan_saglik"
+        android:label="Sağlık Asistanım"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
