@@ -1,11 +1,10 @@
 class kullanicibilgileri {
-  String isim, mail, boy, yas, kilo;
+  String isim = "", mail, boy, yas, kilo;
   kullanicibilgileri();
-  void kayit(String isim, String mail, String boy, String yas, String kilo) {
-    this.isim = isim;
-    this.mail = mail;
-    this.boy = boy;
-    this.yas = yas;
-    this.kilo = kilo;
-  }
+  get getIsim => isim;
+  get getMail => mail;
+  get getBoy => boy;
+  get getYas => yas;
+  get getKilo => kilo;
+  kayit() {}
 } //Deneme amaçlı. Kullanılmayacak kısım

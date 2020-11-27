@@ -4,10 +4,10 @@ import '../nav.dart';
 
 class KayitGiris extends StatefulWidget {
   @override
-  KayitGirisState createState() => KayitGirisState();
+  _KayitGirisState createState() => _KayitGirisState();
 }
 
-class KayitGirisState extends State<KayitGiris> {
+class _KayitGirisState extends State<KayitGiris> {
   bool _loggedIn = false;
   String _isim, _email, _sifre, _boy, _yas, _kilo;
   final auth = FirebaseAuth.instance;

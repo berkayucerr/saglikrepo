@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class Yenispor extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new YeniSporEkrani();
+  State<StatefulWidget> createState() => new _YeniSporEkrani();
 }
 
-class YeniSporEkrani extends State<Yenispor> {
+class _YeniSporEkrani extends State<Yenispor> {
   String _selectedValue;
 
   @override

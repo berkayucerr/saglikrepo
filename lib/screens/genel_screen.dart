@@ -1,13 +1,31 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+import 'package:jiffy/jiffy.dart';
+import 'package:pedometer/pedometer.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Genel extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _GenelState();
-  }
+  _GenelState createState() => _GenelState();
 }
 
-class _GenelState extends State {
+class _GenelState extends State<Genel> {
+  Pedometer _pedometer;
+  StreamSubscription<int> _subscription;
+  Box<int> stepsBox = Hive.box('steps');
+  int todaySteps;
+
+  final Color carbonBlack = Color(0xff1a1a1a);
+  double _percent = 0;
+  @override
+  void initState() {
+    super.initState();
+    startListening();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,37 +46,103 @@ class _GenelState extends State {
               padding: EdgeInsets.only(top: 10.0),
               width: 200,
               height: 200,
-              child: Text('Atılan Adım'),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black, Colors.orange]),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(27.0),
-                      bottomRight: Radius.circular(27.0),
-                      topLeft: Radius.circular(27.0),
-                      topRight: Radius.circular(27.0))),
+              child: Column(
+                children: [
+                  Text(
+                    todaySteps?.toString() ?? '0',
+                    style: GoogleFonts.darkerGrotesque(
+                      fontSize: 80,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    "Adım Atıldı",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Container(
-              padding: EdgeInsets.only(top: 10.0),
-              width: 200,
-              height: 200,
-              child: Text('Yakılan Kalori'),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black, Colors.orange]),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(27.0),
-                      bottomRight: Radius.circular(27.0),
-                      topLeft: Radius.circular(27.0),
-                      topRight: Radius.circular(27.0))),
+            new CircularPercentIndicator(
+              radius: 300.0,
+              lineWidth: 10.0,
+              percent: _percent,
+              header: new Text(todaySteps.toString()),
+              center: new Icon(
+                Icons.person,
+                size: 100.0,
+                color: carbonBlack,
+              ),
+              backgroundColor: carbonBlack,
+              progressColor: Colors.orange,
             ),
           ],
         ),
       ),
     );
+  }
+
+/*Plugin Kısmı*/
+  @override
+  void dispose() {
+    stopListening();
+    super.dispose();
+  }
+
+  void startListening() {
+    _pedometer = Pedometer();
+    _subscription = _pedometer.pedometerStream.listen(
+      getTodaySteps,
+      onError: _onError,
+      onDone: _onDone,
+      cancelOnError: true,
+    );
+  }
+
+  void _onDone() => print("Finished pedometer tracking");
+  void _onError(error) => print("Flutter Pedometer Error: $error");
+
+  Future<int> getTodaySteps(int value) async {
+    print(value);
+    int savedStepsCountKey = 999999;
+    int savedStepsCount = stepsBox.get(savedStepsCountKey, defaultValue: 0);
+
+    int todayDayNo = Jiffy(DateTime.now()).dayOfYear;
+    if (value < savedStepsCount) {
+      // Upon device reboot, pedometer resets. When this happens, the saved counter must be reset as well.
+      savedStepsCount = 0;
+      // persist this value using a package of your choice here
+      stepsBox.put(savedStepsCountKey, savedStepsCount);
+    }
+
+    // load the last day saved using a package of your choice here
+    int lastDaySavedKey = 888888;
+    int lastDaySaved = stepsBox.get(lastDaySavedKey, defaultValue: 0);
+
+    // When the day changes, reset the daily steps count
+    // and Update the last day saved as the day changes.
+    if (lastDaySaved < todayDayNo) {
+      lastDaySaved = todayDayNo;
+      savedStepsCount = value;
+
+      stepsBox
+        ..put(lastDaySavedKey, lastDaySaved)
+        ..put(savedStepsCountKey, savedStepsCount);
+    }
+
+    setState(() {
+      todaySteps = value - savedStepsCount;
+    });
+    stepsBox.put(todayDayNo, todaySteps);
+    _percent = todaySteps / 10000;
+    return todaySteps; // this is your daily steps value.
+  }
+
+  void stopListening() {
+    _subscription.cancel();
   }
 }

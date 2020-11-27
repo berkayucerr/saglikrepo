@@ -1,4 +1,6 @@
 import 'package:asistan_saglik/dosyalar/kullanicibilgileri.dart';
+import 'package:asistan_saglik/screens/girisekrani.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Profil extends StatefulWidget {
@@ -10,13 +12,22 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State {
   kullanicibilgileri k = kullanicibilgileri();
+
   @override
   Widget build(BuildContext context) {
-    k.kayit("Berkay ÜÇER", "berkayucer@gmail.com", "1.83", "22", "80");
+    k.mail = FirebaseAuth.instance.currentUser.email;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          actions: [],
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await signOut();
+              },
+              icon: Icon(Icons.logout),
+              color: Colors.orange,
+            )
+          ],
           title: Text(
             'Profil Ekranı',
             style: TextStyle(color: Colors.orangeAccent),
@@ -41,7 +52,7 @@ class _ProfilState extends State {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        "Yaş: " + k.yas + " Boy: " + k.boy + " Kilo: " + k.kilo,
+                        k.mail,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -61,5 +72,18 @@ class _ProfilState extends State {
             ],
           ),
         ));
+  }
+
+  Future signOut() async {
+    try {
+      FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => KayitGiris(),
+          ));
+    } catch (e) {
+      print(e);
+    }
   }
 }
