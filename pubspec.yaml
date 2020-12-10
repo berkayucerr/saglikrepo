@@ -28,6 +28,7 @@ dependencies:
   hive_flutter: ^0.3.0+2
   percent_indicator: "^2.1.7+2"
   cupertino_icons: ^1.0.0
+  cloud_firestore: ^0.14.4
 
 
 dev_dependencies:

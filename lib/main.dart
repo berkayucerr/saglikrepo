@@ -16,9 +16,10 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  var _firebaseUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser == null)
+    if (_firebaseUser == null)
       return MaterialApp(
           title: 'Health',
           debugShowCheckedModeBanner: false,

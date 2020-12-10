@@ -1,7 +1,10 @@
 import 'package:asistan_saglik/dosyalar/kullanicibilgileri.dart';
 import 'package:asistan_saglik/screens/girisekrani.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../nav.dart';
 
 class Profil extends StatefulWidget {
   @override
@@ -10,8 +13,165 @@ class Profil extends StatefulWidget {
   }
 }
 
-class _ProfilState extends State {
+class _ProfilState extends State<Profil> {
   kullanicibilgileri k = kullanicibilgileri();
+  String _mail, _pass;
+
+  var user = FirebaseAuth.instance.currentUser;
+  Widget BilgileriDuzenle() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Kullanıcı Bilgilerini Düzenle',
+          style: TextStyle(color: Colors.orange),
+        ),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
+      body: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Form(
+            child: ListView(
+              children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Isminiz",
+                      hintText: "Isim",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.length < 3)
+                      return "İsim alanı en az 3 karakter olmalıdır";
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      value.trim();
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      labelText: "Email",
+                      hintText: "mail@",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (!value.contains('@') || !value.contains('.com'))
+                      return "Geçerli bir eposta adresi giriniz";
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _mail = value.trim();
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Boyunuz",
+                      hintText: "Boy",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      //
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Yaş",
+                      hintText: "Yaş",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      //
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Kilonuz",
+                      hintText: "Kilo",
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                  validator: (value) {
+                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      //
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: "Sifre",
+                      hintText: "sifre",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      )),
+                  onChanged: (value) {
+                    setState(() {
+                      _pass = value.trim();
+                    });
+                  },
+                ),
+                FloatingActionButton(
+                  child: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      user.updateEmail(_mail);
+                      user.updatePassword(_pass);
+                      Navigator.pop(context);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +181,23 @@ class _ProfilState extends State {
           backgroundColor: Colors.black,
           actions: [
             IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BilgileriDuzenle()));
+              },
+              tooltip: 'Profil Bilgilerini Düzenle',
+              icon: Icon(Icons.edit),
+              color: Colors.orange,
+            ),
+            IconButton(
               onPressed: () async {
                 await signOut();
               },
               icon: Icon(Icons.logout),
               color: Colors.orange,
-            )
+            ),
           ],
           title: Text(
             'Profil Ekranı',

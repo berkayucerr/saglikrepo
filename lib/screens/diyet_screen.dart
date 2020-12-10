@@ -1,4 +1,6 @@
 import 'package:asistan_saglik/dosyalar/yiyecekler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Diyet extends StatefulWidget {
@@ -11,6 +13,9 @@ class Diyet extends StatefulWidget {
 class _DiyetState extends State {
   @override
   Widget build(BuildContext context) {
+    var user = FirebaseAuth.instance.currentUser;
+    List<yiyecekler> liste = new List<yiyecekler>();
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -20,7 +25,24 @@ class _DiyetState extends State {
           ),
           centerTitle: true,
         ),
-        body: _Ekran(),
+        body: Container(
+          color: Colors.black,
+          child: ListView.builder(
+            itemCount: liste.length,
+            itemBuilder: (context, index) {
+              return Card(
+                color: Colors.orangeAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                elevation: 4,
+                child: ListTile(
+                  title: Text(liste[index].isim),
+                  subtitle: Text(liste[index].kalori.toString() + " Dakika"),
+                ),
+              );
+            },
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Diyet Ekle',
           child: Icon(Icons.add),
@@ -28,14 +50,24 @@ class _DiyetState extends State {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DiyetEkle()),
+              MaterialPageRoute(builder: (context) => NewDiyet()),
             );
           },
         ));
   }
 }
 
-class DiyetEkle extends StatelessWidget {
+class NewDiyet extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return DiyetEkle();
+  }
+}
+
+class DiyetEkle extends State<NewDiyet> {
+  List<yiyecekler> y = new List<yiyecekler>();
+  List<yiyecekler> y2 = new List<yiyecekler>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,40 +78,63 @@ class DiyetEkle extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: Container(
-        color: Colors.black,
+      body: StreamBuilder(
+        stream:
+            FirebaseFirestore.instance.collection('Diyetlistesi').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Text('Data loading please wait...');
+          int _snapshotLength = snapshot.data.documents.length;
+          for (int i = 0; i < _snapshotLength; i++) {
+            String a = snapshot.data.documents[i]['isim'];
+            int b = snapshot.data.documents[i]['kalori'];
+            y.add(new yiyecekler(a, b));
+          }
+
+          return Scaffold(
+              body: ListView.builder(
+                  itemCount: _snapshotLength,
+                  itemBuilder: (BuildContext context, int index) {
+                    return new Card(
+                      child: new Container(
+                        padding: new EdgeInsets.all(10.0),
+                        child: new Column(
+                          children: <Widget>[
+                            new CheckboxListTile(
+                                value: y[index].value,
+                                title: new Text(y[index].isim +
+                                    ': ' +
+                                    y[index].kalori.toString() +
+                                    ' kalori'),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                onChanged: (bool val) {
+                                  setState(() {
+                                    y[index].value = val;
+                                  });
+                                })
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+              floatingActionButton: FloatingActionButton(
+                tooltip: 'Diyet Ekle',
+                child: Icon(Icons.add),
+                backgroundColor: Colors.deepOrangeAccent,
+                onPressed: () {
+                  setState(() {
+                    y2.clear();
+                    for (int i = 0; i < y.length; i++) {
+                      if (y[i].value) {
+                        y2.add(y[i]);
+                      }
+                    }
+                    Navigator.pop(context);
+                  });
+                },
+              ));
+        },
       ),
     );
   }
-}
-
-Widget _Ekran() {
-  List<yiyecekler> yiyecek = List();
-  yiyecek.add(new yiyecekler(0, 'Elma', 50));
-  yiyecek.add(new yiyecekler(1, 'Armut', 70));
-  yiyecek.add(new yiyecekler(2, 'Kebap', 700));
-  yiyecek.add(new yiyecekler(3, 'Döner', 680));
-  yiyecek.add(new yiyecekler(4, 'Sebze', 100));
-
-  return Scaffold(
-    body: Container(
-      color: Colors.black,
-      width: double.infinity,
-      height: double.infinity,
-      child: ListView.builder(
-        itemCount: yiyecek.length,
-        itemBuilder: (context, index) {
-          return Card(
-            color: Colors.orangeAccent,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            elevation: 4,
-            child: ListTile(
-              title: Text(yiyecek[index].isim),
-            ),
-          );
-        },
-      ),
-    ),
-  );
 }

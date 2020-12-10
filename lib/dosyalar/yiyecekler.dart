@@ -3,10 +3,9 @@ class yiyecekler {
   bool value = false;
   String isim = "";
   int kalori = 0;
-  yiyecekler(int _id, String _isim, int _kalori) {
-    this.id = _id;
-    this.isim = _isim;
-    this.kalori = _kalori;
-    //veritabanı kodu gelecek
+
+  yiyecekler(String isim, int kalori) {
+    this.isim = isim;
+    this.kalori = kalori;
   }
 }
