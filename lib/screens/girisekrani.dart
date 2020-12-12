@@ -11,10 +11,6 @@ class KayitGiris extends StatefulWidget {
 class _KayitGirisState extends State<KayitGiris> {
   bool _loggedIn = false;
   String _isim, _email, _sifre, _boy, _yas, _kilo;
-  Box<int> _yasdb = Hive.box('yas');
-  Box<double> _boydb = Hive.box('boy');
-  Box<double> _kilodb = Hive.box('kilo');
-  Box<String> _isimdb = Hive.box('isim');
 
   final auth = FirebaseAuth.instance;
 

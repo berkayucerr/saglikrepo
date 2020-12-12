@@ -157,8 +157,8 @@ class _ProfilState extends State<Profil> {
                   child: Icon(Icons.edit),
                   onPressed: () {
                     setState(() {
-                      user.updateEmail(_mail);
-                      user.updatePassword(_pass);
+                      if (_mail != null) user.updateEmail(_mail);
+                      if (_pass != null) user.updatePassword(_pass);
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Home()));

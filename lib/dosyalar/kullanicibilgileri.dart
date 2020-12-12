@@ -1,5 +1,5 @@
 class kullanicibilgileri {
-  String isim = "", mail, boy, yas, kilo;
+  String isim = "", mail = "", boy = "", yas = "", kilo = "";
   kullanicibilgileri();
   get getIsim => isim;
   get getMail => mail;
