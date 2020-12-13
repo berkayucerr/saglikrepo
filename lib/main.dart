@@ -1,3 +1,4 @@
+import 'package:asistan_saglik/dosyalar/location.dart';
 import 'package:asistan_saglik/screens/girisekrani.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox<int>('steps');
+  await Hive.openBox<List<location>>('activities');
   await Firebase.initializeApp();
   runApp(MyApp());
 }

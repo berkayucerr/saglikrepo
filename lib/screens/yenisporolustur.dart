@@ -1,100 +1,91 @@
-import 'package:asistan_saglik/dosyalar/spor.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class Yenispor extends StatefulWidget {
+import 'package:asistan_saglik/dosyalar/location.dart';
+import 'package:asistan_saglik/screens/spor_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
+
+class YeniSpor extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new _YeniSporEkrani();
+  _YeniSporState createState() => _YeniSporState();
 }
 
-class _YeniSporEkrani extends State<Yenispor> {
-  String _selectedValue;
+class _YeniSporState extends State<YeniSpor> {
+  Box<List<location>> activities = Hive.box('activities');
+  double _lati, _longti;
+  _getCurrentLocation() async {
+    final geoposition = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    setState(() {
+      _lati = geoposition.latitude;
+      _longti = geoposition.longitude;
+    });
+  }
+
+  List<location> l = new List<location>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCurrentLocation();
+    l.add(new location(0, 0));
+  }
+
+  int i = 0;
+  bool _timerControl = false;
+  Timer _timer;
+  _ekle() async {
+    _timer = Timer.periodic(new Duration(seconds: 3), (timer) {
+      debugPrint(timer.tick.toString());
+      _getCurrentLocation();
+      if (l[i].lati != _lati ||
+          l[i].longti != _longti ||
+          ((l[i].lati != _lati) && (l[i].longti != _longti))) {
+        i++;
+        l.add(new location(_lati, _longti));
+      }
+      print(l[i].lati);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'Yeni Aktivite Ekle',
-          style: TextStyle(color: Colors.orangeAccent),
-        ),
+        actions: [
+          FlatButton(
+              child: Icon(Icons.add),
+              onPressed: () async {
+                if (_timerControl == false) {
+                  await _ekle();
+                  _timerControl = true;
+                }
+              }),
+          FlatButton(
+            child: Icon(Icons.alarm),
+            onPressed: () {
+              if (_timerControl == true) {
+                _timerControl = false;
+                _timer.cancel();
+                activities.add(l);
+              }
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
-      body: Container(
-        child: DropdownButton(
-          iconDisabledColor: Colors.orange,
-          iconEnabledColor: Colors.orange,
-          focusColor: Colors.orange,
-          value: _selectedValue,
-          dropdownColor: Colors.orangeAccent,
-          items: <String>["Koşu", "Yürüyüş", "Bisiklet"]
-              .map((label) => DropdownMenuItem(
-                    child: Text(label),
-                    value: label,
-                  ))
-              .toList(),
-          onChanged: (value) {
+      body: Center(
+        child: FlatButton(
+          onPressed: () {
             setState(() {
-              _selectedValue = value;
+              for (var i = 0; i < l.length; i++) {
+                print(l[i].lati.toString() + ' ve ' + l[i].longti.toString());
+              }
             });
           },
+          child: Icon(Icons.ac_unit),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Spor Aktivitesi Ekle',
-        child: Icon(Icons.add),
-        backgroundColor: Colors.deepOrangeAccent,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Sporx(_selectedValue)),
-          );
-        },
-      ),
-      backgroundColor: Colors.black,
-    );
-  }
-
-  Widget Sporx(String v) {
-    spor s = new spor(v);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          s.sportipi,
-          style: TextStyle(color: Colors.orangeAccent),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-      ),
-      body: Container(
-        color: Colors.black,
-        child: ListView(
-          padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
-          children: <Widget>[
-            Container(
-              child: Column(),
-              padding: EdgeInsets.only(top: 10.0),
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black, Colors.orange]),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(27.0),
-                      bottomRight: Radius.circular(27.0),
-                      topLeft: Radius.circular(27.0),
-                      topRight: Radius.circular(27.0))),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepOrange,
-        child: Icon(Icons.save),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     );
   }

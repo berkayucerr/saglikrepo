@@ -1,78 +1,74 @@
+import 'package:asistan_saglik/dosyalar/location.dart';
+import 'package:hive/hive.dart';
+
 import 'yenisporolustur.dart';
 import 'package:flutter/material.dart';
 
 class Spor extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _SporState();
+    return _Spor();
   }
 }
 
-class _SporState extends State {
+class _Spor extends State {
+  Box<List<location>> activities = Hive.box('activities');
+  List<List<location>> aktivite_listesi = new List<List<location>>();
   @override
-  Widget build(BuildContext context) {
-    return AktiviteListesi(context);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    /*for (var i = 0; i < activities.length; i++) {
+      aktivite_listesi.add(activities.getAt(i));
+    }*/
   }
-}
 
-Widget AktiviteListesi(BuildContext context) {
-  List aktivite_listesi = new List();
-
-  return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'Spor Ekranı',
-          style: TextStyle(color: Colors.orangeAccent),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        color: Colors.black,
-        child: ListView.builder(
-          itemCount: aktivite_listesi.length,
-          itemBuilder: (context, index) {
-            return Card(
-              color: Colors.orangeAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              elevation: 4,
-              child: ListTile(
-                title: Text(aktivite_listesi[index].sporTipi),
-                subtitle: Text(
-                    aktivite_listesi[index].sporsuresi.toString() + " Dakika"),
-              ),
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Spor Aktivitesi Ekle',
-        child: Icon(Icons.add),
-        backgroundColor: Colors.deepOrangeAccent,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Yenispor()),
-          );
-        },
-      ));
-}
-
-class AktiviteEkle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Yeni Spor Aktivitesi Ekle',
-          style: TextStyle(color: Colors.orangeAccent),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            'Spor Ekranı',
+            style: TextStyle(color: Colors.orangeAccent),
+          ),
+          centerTitle: true,
+          actions: [
+            FlatButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: Icon(Icons.ac_unit))
+          ],
         ),
-        backgroundColor: Colors.black,
-      ),
-      body: Container(color: Colors.black),
-    );
+        body: Container(
+          color: Colors.black,
+          child: ListView.builder(
+            itemCount: aktivite_listesi.length,
+            itemBuilder: (context, index) {
+              return Card(
+                color: Colors.orangeAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                elevation: 4,
+                child: ListTile(
+                  title: Text(aktivite_listesi[index].toString()),
+                  subtitle: Text(aktivite_listesi[index].length.toString()),
+                ),
+              );
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Spor Aktivitesi Ekle',
+          child: Icon(Icons.add),
+          backgroundColor: Colors.deepOrangeAccent,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => YeniSpor()),
+            );
+          },
+        ));
   }
 }
-
-Widget _Ekran() {}
