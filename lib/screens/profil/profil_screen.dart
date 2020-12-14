@@ -1,10 +1,9 @@
 import 'package:asistan_saglik/dosyalar/kullanicibilgileri.dart';
-import 'package:asistan_saglik/screens/girisekrani.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:asistan_saglik/screens/auth/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../nav.dart';
+import '../main/nav.dart';
 
 class Profil extends StatefulWidget {
   @override

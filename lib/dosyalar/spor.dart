@@ -1,11 +1,9 @@
+import 'location.dart';
 class spor {
-  double baslangiczamani;
-  double bitiszamani;
+  String baslangiczamani="";
+  String bitiszamani="";
   String sportipi = "";
-  double koordinat1;
-  double koordinat2;
-  int kalori;
-  spor(String tip) {
-    sportipi = tip;
-  }
+  List<location> l=new List<location>(); 
+  int kalori=0;
+  spor();
 }

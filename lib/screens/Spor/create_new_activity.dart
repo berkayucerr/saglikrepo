@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:asistan_saglik/dosyalar/location.dart';
-import 'package:asistan_saglik/screens/spor_screen.dart';
+import 'package:asistan_saglik/dosyalar/spor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
@@ -12,8 +12,11 @@ class YeniSpor extends StatefulWidget {
 }
 
 class _YeniSporState extends State<YeniSpor> {
-  Box<List<location>> activities = Hive.box('activities');
+  spor s = new spor();
   double _lati, _longti;
+  int i = 0;
+  bool _timerControl = false;
+  Timer _timer;
   _getCurrentLocation() async {
     final geoposition = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
@@ -23,30 +26,43 @@ class _YeniSporState extends State<YeniSpor> {
     });
   }
 
-  List<location> l = new List<location>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCurrentLocation();
-    l.add(new location(0, 0));
+    firtsLocation();
+    print(new DateTime.now());
   }
 
-  int i = 0;
-  bool _timerControl = false;
-  Timer _timer;
+  void firtsLocation() async {
+    await Future.delayed(const Duration(seconds: 9), () {
+      print('FirstInsertionCheckpoint $_lati $_longti');
+      s.l.add(new location(_lati, _longti));
+    });
+  }
+
   _ekle() async {
-    _timer = Timer.periodic(new Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
       debugPrint(timer.tick.toString());
       _getCurrentLocation();
-      if (l[i].lati != _lati ||
-          l[i].longti != _longti ||
-          ((l[i].lati != _lati) && (l[i].longti != _longti))) {
+      if ((s.l[i].lati != _lati ||
+              s.l[i].longti != _longti ||
+              ((s.l[i].lati != _lati) && (s.l[i].longti != _longti))) &&
+          _lati != null) {
         i++;
-        l.add(new location(_lati, _longti));
+        s.l.add(new location(_lati, _longti));
       }
-      print(l[i].lati);
+      print(s.l[i].lati);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timerControl) {
+      _timer.cancel();
+    }
   }
 
   @override
@@ -57,7 +73,7 @@ class _YeniSporState extends State<YeniSpor> {
           FlatButton(
               child: Icon(Icons.add),
               onPressed: () async {
-                if (_timerControl == false) {
+                if (!_timerControl) {
                   await _ekle();
                   _timerControl = true;
                 }
@@ -65,10 +81,9 @@ class _YeniSporState extends State<YeniSpor> {
           FlatButton(
             child: Icon(Icons.alarm),
             onPressed: () {
-              if (_timerControl == true) {
+              if (_timerControl) {
                 _timerControl = false;
                 _timer.cancel();
-                activities.add(l);
               }
               Navigator.pop(context);
             },
@@ -79,8 +94,9 @@ class _YeniSporState extends State<YeniSpor> {
         child: FlatButton(
           onPressed: () {
             setState(() {
-              for (var i = 0; i < l.length; i++) {
-                print(l[i].lati.toString() + ' ve ' + l[i].longti.toString());
+              for (var i = 0; i < s.l.length; i++) {
+                print(
+                    s.l[i].lati.toString() + ' ve ' + s.l[i].longti.toString());
               }
             });
           },

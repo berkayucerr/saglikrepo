@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/diyet_screen.dart';
-import 'screens/genel_screen.dart';
-import 'screens/profil_screen.dart';
-import 'screens/rapor_screen.dart';
-import 'screens/spor_screen.dart';
+import '../diyet/diyet_screen.dart';
+import '../home/genel_screen.dart';
+import '../profil/profil_screen.dart';
+import '../report/report_screen.dart';
+import '../Spor/spor_screen.dart';
 
 class Home extends StatefulWidget {
   @override

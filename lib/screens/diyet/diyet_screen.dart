@@ -2,6 +2,7 @@ import 'package:asistan_saglik/dosyalar/yiyecekler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Diyet extends StatefulWidget {
   @override
@@ -82,7 +83,11 @@ class DiyetEkle extends State<NewDiyet> {
         stream:
             FirebaseFirestore.instance.collection('Diyetlistesi').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text('Data loading please wait...');
+          if (!snapshot.hasData) return Container(color: Colors.black,child:Center(child:Text('Data loading please wait...',style:GoogleFonts.droidSans(
+                      fontSize: 80,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w900,
+                    ), )));
           int _snapshotLength = snapshot.data.documents.length;
           for (int i = 0; i < _snapshotLength; i++) {
             String a = snapshot.data.documents[i]['isim'];

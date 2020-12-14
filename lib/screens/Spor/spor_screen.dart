@@ -1,7 +1,8 @@
 import 'package:asistan_saglik/dosyalar/location.dart';
+import 'package:asistan_saglik/dosyalar/spor.dart';
 import 'package:hive/hive.dart';
 
-import 'yenisporolustur.dart';
+import 'create_new_activity.dart';
 import 'package:flutter/material.dart';
 
 class Spor extends StatefulWidget {
@@ -12,8 +13,7 @@ class Spor extends StatefulWidget {
 }
 
 class _Spor extends State {
-  Box<List<location>> activities = Hive.box('activities');
-  List<List<location>> aktivite_listesi = new List<List<location>>();
+  List<spor> aktivite_listesi = new List<spor>();
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +53,7 @@ class _Spor extends State {
                 elevation: 4,
                 child: ListTile(
                   title: Text(aktivite_listesi[index].toString()),
-                  subtitle: Text(aktivite_listesi[index].length.toString()),
+                  subtitle: Text(aktivite_listesi[index].l.length.toString()),
                 ),
               );
             },
