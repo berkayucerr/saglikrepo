@@ -46,12 +46,17 @@ class _YeniSporState extends State<YeniSpor> {
     _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
       debugPrint(timer.tick.toString());
       _getCurrentLocation();
-      if ((s.l[i].lati != _lati ||
-              s.l[i].longti != _longti ||
-              ((s.l[i].lati != _lati) && (s.l[i].longti != _longti))) &&
-          _lati != null) {
-        i++;
-        s.l.add(new location(_lati, _longti));
+      if (s.l[0].lati == null) {
+        s.l[0].lati = _lati;
+        s.l[0].longti = _longti;
+      } else {
+        if ((s.l[i].lati != _lati ||
+                s.l[i].longti != _longti ||
+                ((s.l[i].lati != _lati) && (s.l[i].longti != _longti))) &&
+            _lati != null) {
+          i++;
+          s.l.add(new location(_lati, _longti));
+        }
       }
       print(s.l[i].lati);
     });
