@@ -1,7 +1,4 @@
-import 'package:asistan_saglik/dosyalar/location.dart';
 import 'package:asistan_saglik/dosyalar/spor.dart';
-import 'package:hive/hive.dart';
-
 import 'create_new_activity.dart';
 import 'package:flutter/material.dart';
 

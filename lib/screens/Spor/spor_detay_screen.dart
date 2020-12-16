@@ -18,6 +18,12 @@ class _SporDetayState extends State<SporDetay> {
   LatLng _lat1;
   LatLng _lastMapPosition;
   Position currentPosition;
+  @override
+  void initState() {
+    super.initState();
+    _lat1=latlngSegment1[0];
+    _lastMapPosition=latlngSegment1[latlngSegment1.length-1];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +54,8 @@ class _SporDetayState extends State<SporDetay> {
         //position when map opens up
         position: _lastMapPosition,
         infoWindow: InfoWindow(
-          title: 'Awesome Polyline tutorial',
-          snippet: 'This is a snippet',
+          title: 'Bitiş Noktası',
+          snippet: 'Aktivite bitiş noktası',
         ),
       ));
 
@@ -58,8 +64,8 @@ class _SporDetayState extends State<SporDetay> {
         visible: true,
         //latlng is List<LatLng>
         points: latlngSegment1,
-        width: 2,
-        color: Colors.blue,
+        width: 3,
+        color: Colors.orange,
       ));
     });
   }

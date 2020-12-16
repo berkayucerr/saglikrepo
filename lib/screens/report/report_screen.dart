@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Rapor extends StatefulWidget {
   @override
@@ -8,6 +11,10 @@ class Rapor extends StatefulWidget {
 }
 
 class _RaporState extends State {
+  Box<int> stepsBox = Hive.box('steps');
+
+  int todaySteps;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,44 +25,78 @@ class _RaporState extends State {
           centerTitle: true,
         ),
         body: Container(
-          color: Colors.black,
-          child: ListView(
-            padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 10.0),
-                width: 200,
-                height: 600,
-                child: Text('Haftalık Rapor'),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Colors.black, Colors.orange]),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(27.0),
-                        bottomRight: Radius.circular(27.0),
-                        topLeft: Radius.circular(27.0),
-                        topRight: Radius.circular(27.0))),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 10.0),
-                width: 200,
-                height: 600,
-                child: Text('Aylık Rapor'),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Colors.black, Colors.orange]),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(27.0),
-                        bottomRight: Radius.circular(27.0),
-                        topLeft: Radius.circular(27.0),
-                        topRight: Radius.circular(27.0))),
-              ),
-            ],
-          ),
-        ));
+            color: Colors.black,
+            child: ListView(
+                padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 10.0),
+                    width: 200,
+                    height: 200,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Hedef 10bin Adım',
+                          style: GoogleFonts.darkerGrotesque(
+                            fontSize: 20,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Atılan Adım Sayısı ',
+                          style: GoogleFonts.darkerGrotesque(
+                            fontSize: 20,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Günlük Yakılan Kalori Sayısı ',
+                          style: GoogleFonts.darkerGrotesque(
+                            fontSize: 20,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Diyetinizin Toplam Kalori Sayısı',
+                          style: GoogleFonts.darkerGrotesque(
+                            fontSize: 20,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Text(
+                          'Yakılan Toplam Kalori Sayısı ',
+                          style: GoogleFonts.darkerGrotesque(
+                            fontSize: 20,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        FlatButton(
+                            color: Colors.orange,
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: Icon(Icons.ac_unit))
+                      ],
+                    ),
+                  )
+                ])));
   }
 }

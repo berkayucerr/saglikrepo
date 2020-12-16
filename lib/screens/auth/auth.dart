@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../main/nav.dart';
 
 class KayitGiris extends StatefulWidget {
@@ -12,6 +13,7 @@ class _KayitGirisState extends State<KayitGiris> {
   String _isim, _email, _sifre, _boy, _yas, _kilo;
 
   final auth = FirebaseAuth.instance;
+  //Box<String> userBox = Hive.box('kullanici');
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _KayitGirisState extends State<KayitGiris> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.grey,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -163,7 +165,7 @@ class _KayitGirisState extends State<KayitGiris> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.grey,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -315,6 +317,11 @@ class _KayitGirisState extends State<KayitGiris> {
     auth
         .createUserWithEmailAndPassword(email: _email, password: _sifre)
         .then((_) {
+        /*userBox.put('isim', _isim);
+        userBox.put('boy', _boy);
+        userBox.put('kilo', _kilo);
+        userBox.put('yas', _yas);
+        userBox.close();*/
       _loggedIn = true;
 
       _yonlendir(context2);

@@ -14,7 +14,19 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State<Profil> {
   kullanicibilgileri k = kullanicibilgileri();
-  String _mail, _pass;
+  String _mail, _pass, _boy, _yas, _kilo, _isim;
+  /*Box<String> userBox = Hive.box('kullanici');
+  String vals;
+  Future<String> getTodaySteps(String key) async {
+    print(key);
+    String _val = userBox.get('isim', defaultValue: '0');
+    return _val;
+  }*/
+  @override
+  void initState() {
+    super.initState();
+    //_isim=getTodaySteps('isim').toString();
+  }
 
   var user = FirebaseAuth.instance.currentUser;
   Widget BilgileriDuzenle() {
@@ -28,7 +40,7 @@ class _ProfilState extends State<Profil> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.grey,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -40,7 +52,8 @@ class _ProfilState extends State<Profil> {
                       labelText: "Isminiz",
                       hintText: "Isim",
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.orangeAccent))),
+                          borderSide: BorderSide(color: Colors.orangeAccent),
+                          )),
                   validator: (value) {
                     if (value.length < 3)
                       return "İsim alanı en az 3 karakter olmalıdır";
@@ -48,7 +61,7 @@ class _ProfilState extends State<Profil> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      value.trim();
+                      _isim = value.trim();
                     });
                   },
                 ),
@@ -90,7 +103,7 @@ class _ProfilState extends State<Profil> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      //
+                      _boy = value.trim();
                     });
                   },
                 ),
@@ -110,7 +123,7 @@ class _ProfilState extends State<Profil> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      //
+                      _yas = value.trim();
                     });
                   },
                 ),
@@ -130,7 +143,7 @@ class _ProfilState extends State<Profil> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      //
+                      _kilo = value.trim();
                     });
                   },
                 ),
@@ -152,12 +165,18 @@ class _ProfilState extends State<Profil> {
                     });
                   },
                 ),
-                FloatingActionButton(
-                  child: Icon(Icons.edit),
+                FlatButton(
+                  child: Text('Kaydet',style: TextStyle(color: Colors.orange),),
+                  color: Colors.black,
                   onPressed: () {
                     setState(() {
                       if (_mail != null) user.updateEmail(_mail);
                       if (_pass != null) user.updatePassword(_pass);
+                      /*userBox.put('isim', _isim);
+                      userBox.put('boy', _boy);
+                      userBox.put('yas', _yas);
+                      userBox.put('kilo', _kilo);
+                      userBox.close();*/
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Home()));
@@ -174,6 +193,7 @@ class _ProfilState extends State<Profil> {
 
   @override
   Widget build(BuildContext context) {
+
     k.mail = FirebaseAuth.instance.currentUser.email;
     return Scaffold(
         appBar: AppBar(
@@ -213,20 +233,38 @@ class _ProfilState extends State<Profil> {
                 padding: EdgeInsets.only(top: 10.0),
                 width: 200,
                 height: 200,
-                child: Container(
-                  child: Center(
-                    child: ListTile(
+                child: Center(
+                  child: Row(children: <Widget>[
+                   /* ListTile(
                       leading: Icon(Icons.people),
                       title: Text(
-                        k.isim,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        _isim,
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(
-                        k.mail,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.people),
+                      title: Text(
+                        //_boy,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
+                    ListTile(
+                      leading: Icon(Icons.people),
+                      title: Text(
+                        _yas,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.people),
+                      title: Text(
+                        _kilo,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),*/
+                  ]),
                 ),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
