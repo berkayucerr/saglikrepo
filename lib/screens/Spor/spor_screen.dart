@@ -1,5 +1,5 @@
 import 'package:asistan_saglik/dosyalar/spor.dart';
-import 'create_new_activity.dart';
+import 'package:asistan_saglik/screens/sporilksayfa.dart';
 import 'package:flutter/material.dart';
 
 class Spor extends StatefulWidget {
@@ -63,7 +63,7 @@ class _Spor extends State {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => YeniSpor()),
+              MaterialPageRoute(builder: (context) => SporIlk()),
             );
           },
         ));

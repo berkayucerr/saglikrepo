@@ -2,6 +2,7 @@ import 'package:asistan_saglik/dosyalar/kullanicibilgileri.dart';
 import 'package:asistan_saglik/screens/auth/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../main/nav.dart';
 
@@ -15,17 +16,17 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
   kullanicibilgileri k = kullanicibilgileri();
   String _mail, _pass, _boy, _yas, _kilo, _isim;
-  /*Box<String> userBox = Hive.box('kullanici');
+  Box userBox;
   String vals;
-  Future<String> getTodaySteps(String key) async {
-    print(key);
-    String _val = userBox.get('isim', defaultValue: '0');
-    return _val;
-  }*/
+  
   @override
   void initState() {
     super.initState();
-    //_isim=getTodaySteps('isim').toString();
+    userBox=Hive.box<String>('kullaniciBilgileri');
+    this._isim=userBox.get('isim',defaultValue: 'boş');
+    this._boy=userBox.get('boy',defaultValue: 'boş');
+    this._yas=userBox.get('yas',defaultValue: 'boş');
+    this._kilo=userBox.get('kilo',defaultValue: 'boş');
   }
 
   var user = FirebaseAuth.instance.currentUser;
@@ -172,11 +173,10 @@ class _ProfilState extends State<Profil> {
                     setState(() {
                       if (_mail != null) user.updateEmail(_mail);
                       if (_pass != null) user.updatePassword(_pass);
-                      /*userBox.put('isim', _isim);
+                      userBox.put('isim', _isim);
                       userBox.put('boy', _boy);
                       userBox.put('yas', _yas);
                       userBox.put('kilo', _kilo);
-                      userBox.close();*/
                       Navigator.pop(context);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Home()));
@@ -232,38 +232,16 @@ class _ProfilState extends State<Profil> {
               Container(
                 padding: EdgeInsets.only(top: 10.0),
                 width: 200,
-                height: 200,
+                height: 400,
                 child: Center(
-                  child: Row(children: <Widget>[
-                   /* ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text(
-                        _isim,
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text(
-                        //_boy,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text(
-                        _yas,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text(
-                        _kilo,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),*/
+                  child: Column(children: <Widget>[
+                    SizedBox(height: 20,),
+                    Icon(Icons.person,size: 80,),
+                    SizedBox(height: 30,),
+                    Text('İsminiz : $_isim',style: TextStyle(color:Colors.black,fontSize: 25),),
+                    Text('Boyunuz: $_boy',style: TextStyle(color:Colors.black,fontSize: 25),),
+                    Text('Yaşınız : $_yas',style: TextStyle(color:Colors.black,fontSize: 25),),
+                    Text('Kilonuz : $_kilo',style: TextStyle(color:Colors.black,fontSize: 25),),
                   ]),
                 ),
                 decoration: BoxDecoration(

@@ -32,7 +32,7 @@ class _GenelState extends State<Genel> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          'Genel Ekranı',
+          'Genel',
           style: TextStyle(color: Colors.orangeAccent),
         ),
         centerTitle: true,

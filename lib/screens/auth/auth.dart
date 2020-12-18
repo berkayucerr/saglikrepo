@@ -9,12 +9,17 @@ class KayitGiris extends StatefulWidget {
 }
 
 class _KayitGirisState extends State<KayitGiris> {
+  Box userBox;
   bool _loggedIn = false;
   String _isim, _email, _sifre, _boy, _yas, _kilo;
 
   final auth = FirebaseAuth.instance;
-  //Box<String> userBox = Hive.box('kullanici');
 
+  @override
+  void initState() {
+    super.initState();
+    userBox=Hive.box<String>('kullaniciBilgileri');
+  }
   @override
   Widget build(BuildContext context) {
     return KarsilamaEkrani();
@@ -317,13 +322,12 @@ class _KayitGirisState extends State<KayitGiris> {
     auth
         .createUserWithEmailAndPassword(email: _email, password: _sifre)
         .then((_) {
-        /*userBox.put('isim', _isim);
+        userBox.put('isim', _isim);
         userBox.put('boy', _boy);
         userBox.put('kilo', _kilo);
         userBox.put('yas', _yas);
-        userBox.close();*/
       _loggedIn = true;
-
+      
       _yonlendir(context2);
     });
   }

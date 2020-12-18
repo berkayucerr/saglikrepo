@@ -4,71 +4,44 @@ import 'package:asistan_saglik/dosyalar/location.dart';
 import 'package:asistan_saglik/dosyalar/spor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:jiffy/jiffy.dart';
 
 class YeniSpor extends StatefulWidget {
+  int _x;
+  String sportipi;
+
+  YeniSpor(int a, sportipi) {
+    this._x = a;
+    this.sportipi = sportipi;
+  }
+
   @override
-  _YeniSporState createState() => _YeniSporState();
+  _YeniSporState createState() => _YeniSporState(_x, sportipi);
 }
 
 class _YeniSporState extends State<YeniSpor> {
-  spor s = new spor();
-  double _lati, _longti;
-  int i = 0, _sayac = 0, _kaloriSayac2 = 0;
-  double _kaloriSayac = 0.0;
-  bool _timerControl = false;
+  Box userBox;
+  int value;
+  String sportipi;
+  _YeniSporState(int val, String sportipi) {
+    this.value = val;
+    this.sportipi = sportipi;
+  }
+
   Timer _timer, _timer_2;
+  spor s = new spor();
+  double _lati = 0.0, _longti = 0.0, _kaloriSayac = 0.0;
+  String _baslangicZamani = 'Henüz Başlamadı';
+  int i = 0, _counter = 0, _kalori = 0, _kaloriSayac2 = 0,_kilo;
+  String tmp;
+  bool _timerControl = false;
+
   _getCurrentLocation() async {
     final geoposition = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    setState(() {
-      _lati = geoposition.latitude;
-      _longti = geoposition.longitude;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getCurrentLocation();
-    firtsLocation();
-    print(new DateTime.now());
-  }
-
-  void firtsLocation() async {
-    await Future.delayed(const Duration(seconds: 9), () {
-      print('FirstInsertionCheckpoint $_lati $_longti');
-      s.l.add(new location(_lati, _longti));
-    });
-  }
-
-  _ekle(int _speed) async {
-    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
-      debugPrint(timer.tick.toString());
-      _getCurrentLocation();
-      if (s.l[0].lati == null) {
-        s.l[0].lati = _lati;
-        s.l[0].longti = _longti;
-      } else {
-        if ((s.l[i].lati != _lati ||
-                s.l[i].longti != _longti ||
-                ((s.l[i].lati != _lati) && (s.l[i].longti != _longti))) &&
-            _lati != null) {
-          i++;
-          s.l.add(new location(_lati, _longti));
-        }
-      }
-      print(s.l[i].lati);
-    });
-    _timer_2 = Timer.periodic(new Duration(seconds: 60), (timer) {
-      print(timer);
-      _sayac++;
-      _kaloriSayac = double.parse(((_sayac / 60) * 80 * _speed)
-          .toString()); //burası düzenlenecek ikinci parametre kilo
-      String aq = _kaloriSayac.toString();
-      _kaloriSayac2 = int.parse(aq.split(".")[0]);
-    });
+    _lati = geoposition.latitude;
+    _longti = geoposition.longitude;
   }
 
   @override
@@ -79,74 +52,34 @@ class _YeniSporState extends State<YeniSpor> {
     }
   }
 
-  String _zamanHesap() {
-    return (Jiffy().hour.toString() + '.' + Jiffy().minute.toString());
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+    userBox=Hive.box<String>('kullaniciBilgileri');
+    tmp=userBox.get('kilo',defaultValue: '0');
+    _kilo=int.parse(tmp);
   }
 
-  Widget IlkSayfa(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'Aktiviteyi Seç',
-          style: TextStyle(color: Colors.orange),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-          color: Colors.black,
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 150,
-              ),
-              ListTile(
-                title: Text(
-                  'Yürüyüş Aktivitesi (4 KM hız)',
-                  style: TextStyle(color: Colors.black, fontSize: 30),
-                ),
-                tileColor: Colors.orangeAccent,
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IkinciSayfa(4, context)));
-                },
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              ListTile(
-                tileColor: Colors.orangeAccent,
-                title: Text('Koşu Aktivitesi (8 KM hız)',
-                    style: TextStyle(color: Colors.black, fontSize: 30)),
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IkinciSayfa(8, context)));
-                },
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              ListTile(
-                tileColor: Colors.orangeAccent,
-                title: Text('Bisiklet Aktivitesi (15 KM hız)',
-                    style: TextStyle(color: Colors.black, fontSize: 30)),
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IkinciSayfa(15, context)));
-                },
-              ),
-            ],
-          )),
-    );
+  _locationEkle() {
+    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
+      s.l.add(new location(_lati, _longti));
+      _getCurrentLocation();
+      print(_lati.toString() + ' - ' + _longti.toString());
+    });
+    _timer_2 = Timer.periodic(new Duration(seconds: 60), (timer) {
+      print(_timer_2.tick);
+      _counter++;
+      _kaloriSayac = double.parse(((_counter / 60) * _kilo * value)
+          .toString()); //burası düzenlenecek ikinci parametre kilo
+      String aq = _kaloriSayac.toString();
+      print(aq);
+      _kaloriSayac2 = int.parse(aq.split(".")[0]);
+    });
   }
 
-  Widget IkinciSayfa(int _value, BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -165,11 +98,11 @@ class _YeniSporState extends State<YeniSpor> {
                 height: 100,
               ),
               Text(
-                'Başlangıç Zamanı : ${s.baslangiczamani} \nYakılan Kalori : ${_kaloriSayac2}',
-                style: TextStyle(color: Colors.orangeAccent, fontSize: 35),
+                'Başlangıç Zamanı : $_baslangicZamani',
+                style: TextStyle(color: Colors.orangeAccent, fontSize: 20),
               ),
               SizedBox(
-                height: 100,
+                height: 30,
               ),
               Icon(
                 Icons.run_circle,
@@ -186,13 +119,16 @@ class _YeniSporState extends State<YeniSpor> {
                   ),
                   FlatButton(
                     child: Text('Aktiviteyi Başlat'),
-                    onPressed: () async {
+                    onPressed: () {
                       if (!_timerControl) {
-                        await _ekle(_value);
                         _timerControl = true;
-                        s.baslangiczamani = _zamanHesap();
+                        _locationEkle();
+                        setState(() {
+                          _baslangicZamani = (Jiffy().hour.toString() +
+                              '.' +
+                              Jiffy().minute.toString());
+                        });
                       }
-                      
                     },
                     color: Colors.orange,
                   ),
@@ -204,10 +140,14 @@ class _YeniSporState extends State<YeniSpor> {
                     onPressed: () {
                       if (_timerControl) {
                         _timerControl = false;
-                        _timer.cancel();
+                        s.bitiszamani = (Jiffy().hour.toString() +
+                            '.' +
+                            Jiffy().minute.toString());
+                        s.baslangiczamani = _baslangicZamani;
                         _timer_2.cancel();
-                        s.bitiszamani = _zamanHesap();
+                        _timer.cancel();
                         s.kalori = _kaloriSayac2;
+                        s.sportipi = sportipi;
                       }
                       Navigator.pop(context);
                     },
@@ -218,10 +158,5 @@ class _YeniSporState extends State<YeniSpor> {
             ],
           )),
         ));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IlkSayfa(context);
   }
 }
