@@ -123,7 +123,6 @@ class _YeniSporState extends State<YeniSpor> {
               ),
               Column(
                 children: <Widget>[
-                  
                   Visibility(
                     child: FlatButton(
                       child: Text('Aktiviteyi Başlat'),
@@ -142,31 +141,35 @@ class _YeniSporState extends State<YeniSpor> {
                     ),
                     visible: !_timerControl,
                   ),
-                  Visibility(child: 
-                  FlatButton(
-                    child: Text('Aktiviteyi Bitir'),
-                    onPressed: () {
-                      if (_timerControl) {
-                        _timerControl = false;
-                        s.bitiszamani = (Jiffy().hour.toString() +
-                            '.' +
-                            Jiffy().minute.toString());
-                        s.baslangiczamani = _baslangicZamani;
-                        _timer_2.cancel();
-                        _timer.cancel();
-                        s.kalori = _kaloriSayac2;
-                        s.sportipi = sportipi;
-                        sporBox.add(s);
-                      }
-                      Navigator.pop(context);
-                      Navigator.pop(_context2);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
-                    },
-                    color: Colors.orange,
-                  ),visible: _timerControl,)
+                  Visibility(
+                    child: FlatButton(
+                      child: Text('Aktiviteyi Bitir'),
+                      onPressed: () {
+                        if (_timerControl) {
+                          _timerControl = false;
+                          if (s.l.isNotEmpty) {
+                            s.bitiszamani = (Jiffy().hour.toString() +
+                                '.' +
+                                Jiffy().minute.toString());
+                            s.baslangiczamani = _baslangicZamani;
+                            _timer_2.cancel();
+                            _timer.cancel();
+                            s.kalori = _kaloriSayac2;
+                            s.sportipi = sportipi;
+                            sporBox.add(s);
+                          }
+                        }
+                        Navigator.pop(context);
+                        Navigator.pop(_context2);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Home()),
+                        );
+                      },
+                      color: Colors.orange,
+                    ),
+                    visible: _timerControl,
+                  )
                 ],
               )
             ],

@@ -23,6 +23,7 @@ void main() async {
   Hive.openBox<SporBilgileri>('sporBilgileri');
   await Hive.initFlutter();
   await Hive.openBox<int>('steps');
+  await Hive.openBox<int>('hedef');
   await Firebase.initializeApp();
 
   runApp(MyApp());

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -18,13 +19,15 @@ class _GenelState extends State<Genel> {
   Pedometer _pedometer;
   StreamSubscription<int> _subscription;
   Box<int> stepsBox = Hive.box('steps');
-  int todaySteps;
-
+  int todaySteps, hedef;
+  Box hedefBox;
   double _percent = 0;
   @override
   void initState() {
     super.initState();
-    startListening();   
+    startListening();
+    hedefBox = Hive.box<int>('hedef');
+    hedef = hedefBox.get('hedefAdim', defaultValue: 10000);
   }
 
   @override
@@ -37,6 +40,26 @@ class _GenelState extends State<Genel> {
           style: TextStyle(color: Colors.orangeAccent),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          Slider(  
+                            value: hedef.toDouble(),  
+                            min: 10000.0,  
+                            max: 20000.0,  
+                            divisions: 10,  
+                            activeColor: Colors.orange,  
+                            inactiveColor: carbonBlack,  
+                            label: 'Adım Sayısı',  
+                            onChanged: (double newValue) {  
+                              setState(() {  
+                                hedef = newValue.round();  
+                                hedefBox.put('hedefAdim', hedef);
+                                });  
+                              },  
+                              semanticFormatterCallback: (double newValue) {  
+                                return '${newValue.round()} dollars';  
+                              }  
+                            )  
+        ],
       ),
       body: Container(
         color: Colors.black,
@@ -139,7 +162,7 @@ class _GenelState extends State<Genel> {
       todaySteps = value - savedStepsCount;
     });
     stepsBox.put(todayDayNo, todaySteps);
-    _percent = todaySteps / 10000;
+    _percent = todaySteps / hedef;
     return todaySteps; // this is your daily steps value.
   }
 

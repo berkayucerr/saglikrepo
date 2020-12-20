@@ -17,8 +17,8 @@ class Rapor extends StatefulWidget {
 }
 
 class _RaporState extends State {
-  Box _stepsBox, _diyetBox, _sporBox;
-  int _todaySteps, _diyetKalori = 0, _sporKalori = 0;
+  Box _stepsBox, _diyetBox, _sporBox,_hedef;
+  int _todaySteps, _diyetKalori = 0, _sporKalori = 0,hedefAdim=0;
   Besinler bTmp;
   SporBilgileri sTmp;
   bool _adimKontrol = false;
@@ -28,6 +28,8 @@ class _RaporState extends State {
     super.initState();
     _sporBox = Hive.box<SporBilgileri>('sporBilgileri');
     _stepsBox = Hive.box<int>('steps');
+    _hedef=Hive.box<int>('hedef');
+    hedefAdim=_hedef.get('hedefAdim',defaultValue: 10000);
     int todayDayNo = Jiffy(DateTime.now()).dayOfYear;
     _todaySteps=_stepsBox.get(todayDayNo, defaultValue: 0);
     _diyetBox = Hive.box<Besinler>('besinBilgileri');
@@ -51,7 +53,7 @@ class _RaporState extends State {
   }
 
   bool _kontrol() {
-    if (_todaySteps < 10000) {
+    if (_todaySteps < hedefAdim) {
       return true;
     } else {
       return false;
@@ -112,7 +114,7 @@ class _RaporState extends State {
               visible: _adimKontrol,
               child: ListTile(
                 title: Text(
-                  'Hâlâ Atmanız Gereken ${10000 - (_todaySteps)} Adım Var.',
+                  'Hâlâ Atmanız Gereken ${hedefAdim - (_todaySteps)} Adım Var.',
                   style: TextStyle(color: Colors.orange),
                 ),
               ),
