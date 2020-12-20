@@ -9,30 +9,29 @@ import 'package:hive/hive.dart';
 import 'package:jiffy/jiffy.dart';
 
 class YeniSpor extends StatefulWidget {
-  
   BuildContext _context2;
   int _x;
   String sportipi;
 
-  YeniSpor(int a, sportipi,BuildContext context) {
+  YeniSpor(int a, sportipi, BuildContext context) {
     this._x = a;
     this.sportipi = sportipi;
-    this._context2=context;
+    this._context2 = context;
   }
 
   @override
-  _YeniSporState createState() => _YeniSporState(_x, sportipi,_context2);
+  _YeniSporState createState() => _YeniSporState(_x, sportipi, _context2);
 }
 
 class _YeniSporState extends State<YeniSpor> {
   BuildContext _context2;
-  Box userBox,sporBox;
+  Box userBox, sporBox;
   int value;
   String sportipi;
-  _YeniSporState(int val, String sportipi,BuildContext context) {
+  _YeniSporState(int val, String sportipi, BuildContext context) {
     this.value = val;
     this.sportipi = sportipi;
-    this._context2=context;
+    this._context2 = context;
   }
 
   Timer _timer, _timer_2;
@@ -57,6 +56,7 @@ class _YeniSporState extends State<YeniSpor> {
       _timer.cancel();
     }
   }
+
   Location tmpp;
   @override
   void initState() {
@@ -65,15 +65,15 @@ class _YeniSporState extends State<YeniSpor> {
     userBox = Hive.box<String>('kullaniciBilgileri');
     tmp = userBox.get('kilo', defaultValue: '0');
     _kilo = int.parse(tmp);
-    sporBox=Hive.box<SporBilgileri>('sporBilgileri');
-    s.l=new List<Location>();
+    sporBox = Hive.box<SporBilgileri>('sporBilgileri');
+    s.l = new List<Location>();
   }
 
   _locationEkle() {
     _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
-      tmpp=new Location();
-      tmpp.lati=_lati;
-      tmpp.longti=_longti;
+      tmpp = new Location();
+      tmpp.lati = _lati;
+      tmpp.longti = _longti;
       s.l.add(tmpp);
       _getCurrentLocation();
       print(_lati.toString() + ' - ' + _longti.toString());
@@ -121,29 +121,28 @@ class _YeniSporState extends State<YeniSpor> {
               SizedBox(
                 height: 200,
               ),
-              Row(
+              Column(
                 children: <Widget>[
-                  SizedBox(
-                    width: 50,
+                  
+                  Visibility(
+                    child: FlatButton(
+                      child: Text('Aktiviteyi Başlat'),
+                      onPressed: () {
+                        if (!_timerControl) {
+                          _timerControl = true;
+                          _locationEkle();
+                          setState(() {
+                            _baslangicZamani = (Jiffy().hour.toString() +
+                                '.' +
+                                Jiffy().minute.toString());
+                          });
+                        }
+                      },
+                      color: Colors.orange,
+                    ),
+                    visible: !_timerControl,
                   ),
-                  FlatButton(
-                    child: Text('Aktiviteyi Başlat'),
-                    onPressed: () {
-                      if (!_timerControl) {
-                        _timerControl = true;
-                        _locationEkle();
-                        setState(() {
-                          _baslangicZamani = (Jiffy().hour.toString() +
-                              '.' +
-                              Jiffy().minute.toString());
-                        });
-                      }
-                    },
-                    color: Colors.orange,
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
+                  Visibility(child: 
                   FlatButton(
                     child: Text('Aktiviteyi Bitir'),
                     onPressed: () {
@@ -162,13 +161,12 @@ class _YeniSporState extends State<YeniSpor> {
                       Navigator.pop(context);
                       Navigator.pop(_context2);
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Home()),
-                        );
-                      
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
                     },
                     color: Colors.orange,
-                  ),
+                  ),visible: _timerControl,)
                 ],
               )
             ],

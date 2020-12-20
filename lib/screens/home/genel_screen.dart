@@ -24,7 +24,7 @@ class _GenelState extends State<Genel> {
   @override
   void initState() {
     super.initState();
-    startListening();
+    startListening();   
   }
 
   @override

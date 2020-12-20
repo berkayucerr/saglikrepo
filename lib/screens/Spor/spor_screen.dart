@@ -90,6 +90,15 @@ class _Spor extends State {
                         borderRadius: BorderRadius.circular(5)),
                     elevation: 4,
                     child: ListTile(
+                      leading: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            sporBox.deleteAt(index);
+                            sporBox.compact();
+                            aktivite_listesi.removeAt(index);
+                          });
+                        }),
                       title: Text(aktivite_listesi[index].sportipi.toString() +
                           ' ' +
                           aktivite_listesi[index].baslangiczamani +

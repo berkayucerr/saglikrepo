@@ -36,7 +36,11 @@ class _DiyetState extends State<Diyet> {
   Widget build(BuildContext contexta) {
     if (liste.isEmpty)
       return Scaffold(
-        appBar: AppBar(title: Text('Diyet',style: TextStyle(color:Colors.orange)),centerTitle: true,backgroundColor: Colors.black,),
+          appBar: AppBar(
+            title: Text('Diyet', style: TextStyle(color: Colors.orange)),
+            centerTitle: true,
+            backgroundColor: Colors.black,
+          ),
           body: Container(
             color: carbonBlack,
             child: Center(
@@ -90,8 +94,17 @@ class _DiyetState extends State<Diyet> {
                   color: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
-                  elevation: 4,
+                  elevation: 2,
                   child: ListTile(
+                    leading: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            besinBox.deleteAt(index);
+                            besinBox.compact();
+                            liste.removeAt(index);
+                          });
+                        }),
                     title: Text(liste[index].isim +
                         ' ${liste[index].miktar}' +
                         ' adet'),
@@ -119,8 +132,8 @@ class _DiyetState extends State<Diyet> {
 
 class NewDiyet extends StatefulWidget {
   BuildContext _context2;
-  NewDiyet(BuildContext context){
-this._context2=context;
+  NewDiyet(BuildContext context) {
+    this._context2 = context;
   }
   @override
   State<StatefulWidget> createState() {
@@ -130,16 +143,28 @@ this._context2=context;
 
 class DiyetEkle extends State<NewDiyet> {
   BuildContext _context2;
-  DiyetEkle(BuildContext context)
-  {
-    this._context2=context;
+  DiyetEkle(BuildContext context) {
+    this._context2 = context;
   }
   List<Besinler> y = new List<Besinler>();
+  List<Besinler> yx = new List<Besinler>();
   Box besinBox;
+
   @override
   void initState() {
     super.initState();
     besinBox = Hive.box<Besinler>('besinBilgileri');
+    if (besinBox.isNotEmpty) {
+      for (var i = 0; i < besinBox.length; i++) {
+        yx.add(besinBox.getAt(i));
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    besinBox.compact();
   }
 
   @override
@@ -247,6 +272,14 @@ class DiyetEkle extends State<NewDiyet> {
                 backgroundColor: Colors.deepOrangeAccent,
                 onPressed: () {
                   setState(() {
+                    for (int i = 0; i < yx.length; i++) {
+                      for (var j = 0; j < y.length; j++) {
+                        if (y[j].isim == yx[i].isim) {
+                          y[j].value = false;
+                          yx[i].miktar += y[j].miktar;
+                        }
+                      }
+                    }
                     for (int i = 0; i < y.length; i++) {
                       if (y[i].value && y[i].miktar != 0) {
                         besinBox.add(y[i]);
@@ -254,7 +287,8 @@ class DiyetEkle extends State<NewDiyet> {
                     }
                     Navigator.pop(context);
                     Navigator.pop(_context2);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home()));
                   });
                 },
               ));
