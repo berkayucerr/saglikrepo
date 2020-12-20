@@ -7,6 +7,8 @@ import 'package:pedometer/pedometer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+final Color carbonBlack = Color(0xff1a1a1a);
+
 class Genel extends StatefulWidget {
   @override
   _GenelState createState() => _GenelState();
@@ -18,7 +20,6 @@ class _GenelState extends State<Genel> {
   Box<int> stepsBox = Hive.box('steps');
   int todaySteps;
 
-  final Color carbonBlack = Color(0xff1a1a1a);
   double _percent = 0;
   @override
   void initState() {
@@ -73,7 +74,7 @@ class _GenelState extends State<Genel> {
               percent: _percent,
               header: new Text(todaySteps.toString()),
               center: new Icon(
-                Icons.person,
+                Icons.run_circle,
                 size: 100.0,
                 color: carbonBlack,
               ),

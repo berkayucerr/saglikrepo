@@ -1,7 +1,12 @@
-class location {
-  double lati = 0.0, longti = 0.0;
-  location(double lati, double longti) {
-    this.lati = lati;
-    this.longti = longti;
-  }
+import 'package:hive/hive.dart';
+part 'location.g.dart';
+
+@HiveType(typeId: 1)
+class Location {
+  @HiveField(0)
+  double lati;
+  @HiveField(1)
+  double longti;
+  
+  Location({this.lati, this.longti});
 }

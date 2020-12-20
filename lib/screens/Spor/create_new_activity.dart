@@ -2,38 +2,44 @@ import 'dart:async';
 
 import 'package:asistan_saglik/dosyalar/location.dart';
 import 'package:asistan_saglik/dosyalar/spor.dart';
+import 'package:asistan_saglik/screens/main/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:jiffy/jiffy.dart';
 
 class YeniSpor extends StatefulWidget {
+  
+  BuildContext _context2;
   int _x;
   String sportipi;
 
-  YeniSpor(int a, sportipi) {
+  YeniSpor(int a, sportipi,BuildContext context) {
     this._x = a;
     this.sportipi = sportipi;
+    this._context2=context;
   }
 
   @override
-  _YeniSporState createState() => _YeniSporState(_x, sportipi);
+  _YeniSporState createState() => _YeniSporState(_x, sportipi,_context2);
 }
 
 class _YeniSporState extends State<YeniSpor> {
-  Box userBox;
+  BuildContext _context2;
+  Box userBox,sporBox;
   int value;
   String sportipi;
-  _YeniSporState(int val, String sportipi) {
+  _YeniSporState(int val, String sportipi,BuildContext context) {
     this.value = val;
     this.sportipi = sportipi;
+    this._context2=context;
   }
 
   Timer _timer, _timer_2;
-  spor s = new spor();
+  SporBilgileri s = new SporBilgileri();
   double _lati = 0.0, _longti = 0.0, _kaloriSayac = 0.0;
   String _baslangicZamani = 'Henüz Başlamadı';
-  int i = 0, _counter = 0, _kalori = 0, _kaloriSayac2 = 0,_kilo;
+  int i = 0, _counter = 0, _kaloriSayac2 = 0, _kilo;
   String tmp;
   bool _timerControl = false;
 
@@ -51,30 +57,33 @@ class _YeniSporState extends State<YeniSpor> {
       _timer.cancel();
     }
   }
-
+  Location tmpp;
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
-    userBox=Hive.box<String>('kullaniciBilgileri');
-    tmp=userBox.get('kilo',defaultValue: '0');
-    _kilo=int.parse(tmp);
+    userBox = Hive.box<String>('kullaniciBilgileri');
+    tmp = userBox.get('kilo', defaultValue: '0');
+    _kilo = int.parse(tmp);
+    sporBox=Hive.box<SporBilgileri>('sporBilgileri');
+    s.l=new List<Location>();
   }
 
   _locationEkle() {
     _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
-      s.l.add(new location(_lati, _longti));
+      tmpp=new Location();
+      tmpp.lati=_lati;
+      tmpp.longti=_longti;
+      s.l.add(tmpp);
       _getCurrentLocation();
       print(_lati.toString() + ' - ' + _longti.toString());
     });
     _timer_2 = Timer.periodic(new Duration(seconds: 60), (timer) {
       print(_timer_2.tick);
       _counter++;
-      _kaloriSayac = double.parse(((_counter / 60) * _kilo * value)
-          .toString()); //burası düzenlenecek ikinci parametre kilo
-      String aq = _kaloriSayac.toString();
-      print(aq);
-      _kaloriSayac2 = int.parse(aq.split(".")[0]);
+      _kaloriSayac = double.parse(((_counter / 60) * _kilo * value).toString());
+      String _temp = _kaloriSayac.toString();
+      _kaloriSayac2 = int.parse(_temp.split(".")[0]);
     });
   }
 
@@ -148,8 +157,15 @@ class _YeniSporState extends State<YeniSpor> {
                         _timer.cancel();
                         s.kalori = _kaloriSayac2;
                         s.sportipi = sportipi;
+                        sporBox.add(s);
                       }
                       Navigator.pop(context);
+                      Navigator.pop(_context2);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Home()),
+                        );
+                      
                     },
                     color: Colors.orange,
                   ),

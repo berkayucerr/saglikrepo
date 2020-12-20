@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:asistan_saglik/dosyalar/besinler.dart';
+import 'package:asistan_saglik/dosyalar/location.dart';
+import 'package:asistan_saglik/dosyalar/spor.dart';
 import 'package:asistan_saglik/screens/auth/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,13 +13,18 @@ import 'nav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   Directory document = await getApplicationSupportDirectory();
   Hive.init(document.path);
+  Hive.registerAdapter(SporBilgileriAdapter());
+  Hive.registerAdapter(LocationAdapter());
+  Hive.registerAdapter(BesinlerAdapter());
+  Hive.openBox<Besinler>('besinBilgileri');
   Hive.openBox<String>('kullaniciBilgileri');
+  Hive.openBox<SporBilgileri>('sporBilgileri');
   await Hive.initFlutter();
   await Hive.openBox<int>('steps');
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 

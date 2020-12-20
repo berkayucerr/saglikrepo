@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../main/nav.dart';
+  final Color carbonBlack = Color(0xff1a1a1a);
 
 class KayitGiris extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _KayitGirisState extends State<KayitGiris> {
         ),
         body: Scaffold(
           body: Container(
-              color: Colors.black,
+              color: carbonBlack,
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +82,7 @@ class _KayitGirisState extends State<KayitGiris> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: Colors.grey,
+        color: carbonBlack,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -90,7 +91,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email,color: Colors.orange,),
                       labelText: "Email",
                       hintText: "mail@",
                       border: OutlineInputBorder(
@@ -112,7 +113,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock,color: Colors.orange,),
                       labelText: "Sifre",
                       hintText: "sifre",
                       border: OutlineInputBorder(
@@ -170,7 +171,7 @@ class _KayitGirisState extends State<KayitGiris> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: Colors.grey,
+        color: carbonBlack,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -178,7 +179,7 @@ class _KayitGirisState extends State<KayitGiris> {
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Isminiz",
                       hintText: "Isim",
                       border: OutlineInputBorder(
@@ -200,7 +201,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email,color: Colors.orange,),
                       labelText: "Email",
                       hintText: "mail@",
                       border: OutlineInputBorder(
@@ -221,7 +222,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Boyunuz",
                       hintText: "Boy",
                       border: OutlineInputBorder(
@@ -241,7 +242,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Yaş",
                       hintText: "Yaş",
                       border: OutlineInputBorder(
@@ -261,7 +262,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Kilonuz",
                       hintText: "Kilo",
                       border: OutlineInputBorder(
@@ -282,7 +283,7 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock,color: Colors.orange,),
                       labelText: "Sifre",
                       hintText: "sifre",
                       border: OutlineInputBorder(

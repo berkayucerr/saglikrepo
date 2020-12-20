@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'Spor/create_new_activity.dart';
+import 'create_new_activity.dart';
  class SporIlk extends StatefulWidget {
+   BuildContext _context2;
+   SporIlk(BuildContext context){
+     this._context2=context;
+   }
    @override
-   _SporIlkState createState() => _SporIlkState();
+   _SporIlkState createState() => _SporIlkState(_context2);
  }
  
  class _SporIlkState extends State<SporIlk> {
+   BuildContext _context2;
+   _SporIlkState(BuildContext context){
+     this._context2=context;
+   }
    @override
    Widget build(BuildContext context) {
      return Scaffold(
@@ -35,7 +43,7 @@ import 'Spor/create_new_activity.dart';
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => YeniSpor(4,'Yürüyüş Aktivitesi')));
+                          builder: (context) => YeniSpor(4,'Yürüyüş Aktivitesi',_context2)));
                 },
               ),
               SizedBox(
@@ -49,7 +57,7 @@ import 'Spor/create_new_activity.dart';
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => YeniSpor(8,'Koşu Aktivitesi')));
+                          builder: (context) => YeniSpor(8,'Koşu Aktivitesi',_context2)));
                 },
               ),
               SizedBox(
@@ -63,7 +71,7 @@ import 'Spor/create_new_activity.dart';
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => YeniSpor(15,'Bisiklet Aktivitesi')));
+                          builder: (context) => YeniSpor(15,'Bisiklet Aktivitesi',_context2)));
                 },
               ),
             ],

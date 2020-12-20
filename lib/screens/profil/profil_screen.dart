@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../main/nav.dart';
+final Color carbonBlack = Color(0xff1a1a1a);
 
 class Profil extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class _ProfilState extends State<Profil> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.grey,
+        color: carbonBlack,
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
@@ -49,7 +50,7 @@ class _ProfilState extends State<Profil> {
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Isminiz",
                       hintText: "Isim",
                       border: OutlineInputBorder(
@@ -72,7 +73,7 @@ class _ProfilState extends State<Profil> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email,color: Colors.orange,),
                       labelText: "Email",
                       hintText: "mail@",
                       border: OutlineInputBorder(
@@ -93,7 +94,7 @@ class _ProfilState extends State<Profil> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Boyunuz",
                       hintText: "Boy",
                       border: OutlineInputBorder(
@@ -113,7 +114,7 @@ class _ProfilState extends State<Profil> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Yaş",
                       hintText: "Yaş",
                       border: OutlineInputBorder(
@@ -133,7 +134,7 @@ class _ProfilState extends State<Profil> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
                       labelText: "Kilonuz",
                       hintText: "Kilo",
                       border: OutlineInputBorder(
@@ -154,7 +155,7 @@ class _ProfilState extends State<Profil> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock,color: Colors.orange,),
                       labelText: "Sifre",
                       hintText: "sifre",
                       border: OutlineInputBorder(
