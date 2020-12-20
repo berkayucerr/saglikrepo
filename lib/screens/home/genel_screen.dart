@@ -22,6 +22,7 @@ class _GenelState extends State<Genel> {
   int todaySteps, hedef;
   Box hedefBox;
   double _percent = 0;
+  bool appbarControl = false;
   @override
   void initState() {
     super.initState();
@@ -35,30 +36,62 @@ class _GenelState extends State<Genel> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          'Genel',
-          style: TextStyle(color: Colors.orangeAccent),
-        ),
-        centerTitle: true,
+        title: Row(children: [
+          Visibility(visible: appbarControl,child: Text('Adım Sayısı: $hedef',style: TextStyle(fontSize: 12,color:Colors.orange),),),
+          Visibility(
+            visible: !appbarControl,
+            child: Text(
+              'Genel',
+              style: TextStyle(color: Colors.orangeAccent),
+            ),
+          ),
+          Visibility(
+            visible: appbarControl,
+            child: Slider(
+                value: hedef.toDouble(),
+                min: 10000.0,
+                max: 20000.0,
+                divisions: 10,
+                activeColor: Colors.orange,
+                inactiveColor: carbonBlack,
+                label: 'Hedef Adım Sayısı: $hedef',
+                onChanged: (double newValue) {
+                  setState(() {
+                    hedef = newValue.round();
+                    hedefBox.put('hedefAdim', hedef);
+                  });
+                },
+                semanticFormatterCallback: (double newValue) {
+                  return '${newValue.round()} dollars';
+                }),
+          ),
+          Visibility(
+              visible: appbarControl,
+              child: FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      appbarControl = false;
+                    });
+                  },
+                  child: Text(
+                    'Tamam',
+                    style: TextStyle(color: Colors.orange),
+                  )))
+        ]),
         actions: <Widget>[
-          Slider(  
-                            value: hedef.toDouble(),  
-                            min: 10000.0,  
-                            max: 20000.0,  
-                            divisions: 10,  
-                            activeColor: Colors.orange,  
-                            inactiveColor: carbonBlack,  
-                            label: 'Adım Sayısı',  
-                            onChanged: (double newValue) {  
-                              setState(() {  
-                                hedef = newValue.round();  
-                                hedefBox.put('hedefAdim', hedef);
-                                });  
-                              },  
-                              semanticFormatterCallback: (double newValue) {  
-                                return '${newValue.round()} dollars';  
-                              }  
-                            )  
+          Visibility(
+            visible: !appbarControl,
+            child: IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.orange,
+                ),
+                onPressed: () {
+                  setState(() {
+                    appbarControl = true;
+                  });
+                }),
+          )
         ],
       ),
       body: Container(
