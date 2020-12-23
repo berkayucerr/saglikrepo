@@ -54,7 +54,6 @@ class _GenelState extends State<Genel> {
                 divisions: 10,
                 activeColor: Colors.orange,
                 inactiveColor: carbonBlack,
-                label: 'Hedef Adım Sayısı: $hedef',
                 onChanged: (double newValue) {
                   setState(() {
                     hedef = newValue.round();
@@ -67,16 +66,14 @@ class _GenelState extends State<Genel> {
           ),
           Visibility(
               visible: appbarControl,
-              child: FlatButton(
+              child: IconButton(
                   onPressed: () {
                     setState(() {
                       appbarControl = false;
                     });
                   },
-                  child: Text(
-                    'Tamam',
-                    style: TextStyle(color: Colors.orange),
-                  )))
+                  icon: Icon(Icons.check,color:Colors.orange)
+                  ))
         ]),
         actions: <Widget>[
           Visibility(

@@ -70,13 +70,14 @@ class _YeniSporState extends State<YeniSpor> {
   }
 
   _locationEkle() {
-    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(new Duration(seconds: 8), (timer) {
       tmpp = new Location();
       tmpp.lati = _lati;
       tmpp.longti = _longti;
       s.l.add(tmpp);
       _getCurrentLocation();
       print(_lati.toString() + ' - ' + _longti.toString());
+      print('location OK');
     });
     _timer_2 = Timer.periodic(new Duration(seconds: 60), (timer) {
       print(_timer_2.tick);
@@ -84,6 +85,7 @@ class _YeniSporState extends State<YeniSpor> {
       _kaloriSayac = double.parse(((_counter / 60) * _kilo * value).toString());
       String _temp = _kaloriSayac.toString();
       _kaloriSayac2 = int.parse(_temp.split(".")[0]);
+      print('Kalori OK');
     });
   }
 
