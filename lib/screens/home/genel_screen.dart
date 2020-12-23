@@ -37,7 +37,13 @@ class _GenelState extends State<Genel> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Row(children: [
-          Visibility(visible: appbarControl,child: Text('Adım Sayısı: $hedef',style: TextStyle(fontSize: 12,color:Colors.orange),),),
+          Visibility(
+            visible: appbarControl,
+            child: Text(
+              'Adım Sayısı: $hedef',
+              style: TextStyle(fontSize: 12, color: Colors.orange),
+            ),
+          ),
           Visibility(
             visible: !appbarControl,
             child: Text(
@@ -58,6 +64,7 @@ class _GenelState extends State<Genel> {
                   setState(() {
                     hedef = newValue.round();
                     hedefBox.put('hedefAdim', hedef);
+                    _percent = todaySteps / hedef;
                   });
                 },
                 semanticFormatterCallback: (double newValue) {
@@ -72,8 +79,7 @@ class _GenelState extends State<Genel> {
                       appbarControl = false;
                     });
                   },
-                  icon: Icon(Icons.check,color:Colors.orange)
-                  ))
+                  icon: Icon(Icons.check, color: Colors.orange)))
         ]),
         actions: <Widget>[
           Visibility(

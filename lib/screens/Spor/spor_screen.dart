@@ -3,6 +3,7 @@ import 'package:asistan_saglik/screens/Spor/spor_detay_screen.dart';
 import 'package:asistan_saglik/screens/Spor/sporilksayfa.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 final Color carbonBlack = Color(0xff1a1a1a);
 
 class Spor extends StatefulWidget {
@@ -39,9 +40,13 @@ class _Spor extends State {
               ),
               centerTitle: true,
             ),
-            body: Container(color: carbonBlack,
+            body: Container(
+              color: carbonBlack,
               child: Center(
-                child: Text('Liste Boş',style: TextStyle(color: Colors.orange),),
+                child: Text(
+                  'Liste Boş',
+                  style: TextStyle(color: Colors.orange),
+                ),
               ),
             ),
             floatingActionButton: FloatingActionButton(
@@ -72,10 +77,55 @@ class _Spor extends State {
                     ),
                     tooltip: 'Listeyi Boşalt',
                     onPressed: () {
-                      setState(() {
-                        sporBox.clear();
-                        aktivite_listesi.clear();
-                      });
+                        return showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: carbonBlack,
+                              title: Text(
+                                'Liste Boşaltılsın mı?',
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text(
+                                      'Listeyi Boşaltmak istediğinize emin misiniz?',
+                                      style: TextStyle(color: Colors.orange),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    'Evet',
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      sporBox.clear();
+                                      aktivite_listesi.clear();
+                                      Navigator.of(context).pop();
+                                    });
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    'Hayır',
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      Navigator.of(context).pop();
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
                     })
               ],
             ),
@@ -91,14 +141,14 @@ class _Spor extends State {
                     elevation: 4,
                     child: ListTile(
                       leading: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          setState(() {
-                            sporBox.deleteAt(index);
-                            sporBox.compact();
-                            aktivite_listesi.removeAt(index);
-                          });
-                        }),
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            setState(() {
+                              sporBox.deleteAt(index);
+                              sporBox.compact();
+                              aktivite_listesi.removeAt(index);
+                            });
+                          }),
                       title: Text(aktivite_listesi[index].sportipi.toString() +
                           ' ' +
                           aktivite_listesi[index].baslangiczamani +

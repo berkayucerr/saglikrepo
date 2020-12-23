@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:asistan_saglik/dosyalar/location.dart';
 import 'package:asistan_saglik/dosyalar/spor.dart';
+import 'package:asistan_saglik/screens/auth/auth.dart';
 import 'package:asistan_saglik/screens/main/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -149,24 +150,58 @@ class _YeniSporState extends State<YeniSpor> {
                       onPressed: () {
                         if (_timerControl) {
                           _timerControl = false;
+                          _timer_2.cancel();
+                          _timer.cancel();
                           if (s.l.isNotEmpty) {
                             s.bitiszamani = (Jiffy().hour.toString() +
                                 '.' +
                                 Jiffy().minute.toString());
                             s.baslangiczamani = _baslangicZamani;
-                            _timer_2.cancel();
-                            _timer.cancel();
                             s.kalori = _kaloriSayac2;
                             s.sportipi = sportipi;
                             sporBox.add(s);
+                            Navigator.pop(context);
+                            Navigator.pop(_context2);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Home()),
+                            );
+                          } else {
+                            return showDialog<void>(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: carbonBlack,
+                                  title: Text('Aktiviteniz Çok Yetersiz',style: TextStyle(color:Colors.orange),),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: <Widget>[
+                                        Text(
+                                            'Aktiviteniz çok kısa olduğu için kaydedilmeyecektir.',style: TextStyle(color:Colors.orange),),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Tamam',style: TextStyle(color:Colors.orange),),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.pop(context);
+                                        Navigator.pop(_context2);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Home()),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         }
-                        Navigator.pop(context);
-                        Navigator.pop(_context2);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Home()),
-                        );
                       },
                       color: Colors.orange,
                     ),

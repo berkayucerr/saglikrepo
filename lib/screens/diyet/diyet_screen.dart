@@ -78,10 +78,55 @@ class _DiyetState extends State<Diyet> {
                   ),
                   tooltip: 'Listeyi Boşalt',
                   onPressed: () {
-                    setState(() {
-                      besinBox.clear();
-                      liste.clear();
-                    });
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: carbonBlack,
+                          title: Text(
+                            'Liste Boşaltılsın mı?',
+                            style: TextStyle(color: Colors.orange),
+                          ),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text(
+                                  'Listeyi Boşaltmak istediğinize emin misiniz?',
+                                  style: TextStyle(color: Colors.orange),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text(
+                                'Evet',
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  besinBox.clear();
+                                  liste.clear();
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'Hayır',
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   })
             ],
           ),
