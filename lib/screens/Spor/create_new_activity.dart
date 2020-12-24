@@ -45,7 +45,7 @@ class _YeniSporState extends State<YeniSpor> {
 
   _getCurrentLocation() async {
     final geoposition = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
     _lati = geoposition.latitude;
     _longti = geoposition.longitude;
   }
@@ -152,39 +152,34 @@ class _YeniSporState extends State<YeniSpor> {
                           _timerControl = false;
                           _timer_2.cancel();
                           _timer.cancel();
-                          if (s.l.isNotEmpty) {
-                            s.bitiszamani = (Jiffy().hour.toString() +
-                                '.' +
-                                Jiffy().minute.toString());
-                            s.baslangiczamani = _baslangicZamani;
-                            s.kalori = _kaloriSayac2;
-                            s.sportipi = sportipi;
-                            sporBox.add(s);
-                            Navigator.pop(context);
-                            Navigator.pop(_context2);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Home()),
-                            );
-                          } else {
+                          if (s.l.length < 2) {
                             return showDialog<void>(
                               context: context,
                               barrierDismissible: false,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   backgroundColor: carbonBlack,
-                                  title: Text('Aktiviteniz Çok Yetersiz',style: TextStyle(color:Colors.orange),),
+                                  title: Text(
+                                    'Aktiviteniz Çok Yetersiz',
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
                                   content: SingleChildScrollView(
                                     child: ListBody(
                                       children: <Widget>[
                                         Text(
-                                            'Aktiviteniz çok kısa olduğu için kaydedilmeyecektir.',style: TextStyle(color:Colors.orange),),
+                                          'Aktiviteniz çok kısa olduğu için kaydedilmeyecektir.',
+                                          style:
+                                              TextStyle(color: Colors.orange),
+                                        ),
                                       ],
                                     ),
                                   ),
                                   actions: <Widget>[
                                     TextButton(
-                                      child: Text('Tamam',style: TextStyle(color:Colors.orange),),
+                                      child: Text(
+                                        'Tamam',
+                                        style: TextStyle(color: Colors.orange),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         Navigator.pop(context);
@@ -199,6 +194,20 @@ class _YeniSporState extends State<YeniSpor> {
                                   ],
                                 );
                               },
+                            );
+                          } else {
+                            s.bitiszamani = (Jiffy().hour.toString() +
+                                '.' +
+                                Jiffy().minute.toString());
+                            s.baslangiczamani = _baslangicZamani;
+                            s.kalori = _kaloriSayac2;
+                            s.sportipi = sportipi;
+                            sporBox.add(s);
+                            Navigator.pop(context);
+                            Navigator.pop(_context2);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Home()),
                             );
                           }
                         }
