@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../main/nav.dart';
-  final Color carbonBlack = Color(0xff1a1a1a);
+
+final Color carbonBlack = Color(0xff1a1a1a);
 
 class KayitGiris extends StatefulWidget {
   @override
@@ -13,14 +14,15 @@ class _KayitGirisState extends State<KayitGiris> {
   Box userBox;
   bool _loggedIn = false;
   String _isim, _email, _sifre, _boy, _yas, _kilo;
-
+  final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    userBox=Hive.box<String>('kullaniciBilgileri');
+    userBox = Hive.box<String>('kullaniciBilgileri');
   }
+
   @override
   Widget build(BuildContext context) {
     return KarsilamaEkrani();
@@ -86,19 +88,26 @@ class _KayitGirisState extends State<KayitGiris> {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
+            key: _formKey,
             child: ListView(
               children: <Widget>[
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.orange,
+                      ),
                       labelText: "Email",
                       hintText: "mail@",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (!value.contains('@') || !value.contains('.com'))
-                      return "Geçerli bir eposta adresi giriniz";
+                    if (value.isNotEmpty) {
+                      if (!value.contains('@') || !value.contains('.com'))
+                        return "Geçerli bir eposta adresi giriniz";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -113,7 +122,10 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.orange,
+                      ),
                       labelText: "Sifre",
                       hintText: "sifre",
                       border: OutlineInputBorder(
@@ -124,6 +136,14 @@ class _KayitGirisState extends State<KayitGiris> {
                       _sifre = value.trim();
                     });
                   },
+                  validator: (value) {
+                    if (value.isNotEmpty) {
+                      if (value.length < 6)
+                        return "Şifre En Az 6 Karakter Uzunluğunda Olmalıdır!";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
+                    return null;
+                  },
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +153,9 @@ class _KayitGirisState extends State<KayitGiris> {
                       child: RaisedButton(
                         color: Colors.grey,
                         child: Text("Giriş Yap"),
-                        onPressed: () => _loginController(context),
+                        onPressed: () {
+                          _loginController(context);
+                        },
                         shape: RoundedRectangleBorder(
                             side: BorderSide(
                                 color: Colors.orangeAccent, width: 2),
@@ -175,18 +197,25 @@ class _KayitGirisState extends State<KayitGiris> {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Form(
+            key: _formKey,
             child: ListView(
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                      ),
                       labelText: "Isminiz",
                       hintText: "Isim",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.length < 3)
-                      return "İsim alanı en az 3 karakter olmalıdır";
+                    if (value.isNotEmpty) {
+                      if (value.length < 3)
+                        return "İsim alanı en az 3 karakter olmalıdır";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -201,14 +230,20 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.orange,
+                      ),
                       labelText: "Email",
                       hintText: "mail@",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (!value.contains('@') || !value.contains('.com'))
-                      return "Geçerli bir eposta adresi giriniz";
+                    if (value.isNotEmpty) {
+                      if (!value.contains('@') || !value.contains('.com'))
+                        return "Geçerli bir eposta adresi giriniz";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -222,13 +257,20 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                      ),
                       labelText: "Boyunuz",
                       hintText: "Boy",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    if (value.isNotEmpty) {
+                      if (!value.contains('.'))
+                        return "Geçerli Bir Boy Giriniz (1.72 gibi)";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -242,13 +284,20 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                      ),
                       labelText: "Yaş",
                       hintText: "Yaş",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    if (value.isNotEmpty) {
+                      if (value.length > 2)
+                        return "Lütfen Geçerli Bir Yaş Giriniz";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -262,13 +311,22 @@ class _KayitGirisState extends State<KayitGiris> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                      ),
                       labelText: "Kilonuz",
                       hintText: "Kilo",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
-                    if (value.isEmpty) return "Boş Geçmeyiniz";
+                    if (value.isNotEmpty) {
+                      if (value.length > 4) {
+                        return "Lütfen Geçerli Bir Kilo Giriniz";
+                      } else if (value.contains('.') || value.contains(',')){
+                        return "Lütfen Kilonuzu Tam Sayı Giriniz (81 gibi).";}
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
                     return null;
                   },
                   onChanged: (value) {
@@ -283,7 +341,10 @@ class _KayitGirisState extends State<KayitGiris> {
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock,color: Colors.orange,),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.orange,
+                      ),
                       labelText: "Sifre",
                       hintText: "sifre",
                       border: OutlineInputBorder(
@@ -293,6 +354,14 @@ class _KayitGirisState extends State<KayitGiris> {
                     setState(() {
                       _sifre = value.trim();
                     });
+                  },
+                  validator: (value) {
+                    if (value.isNotEmpty) {
+                      if (value.length < 6)
+                        return "Şifre En Az 6 Karakter Uzunluğunda Olmalıdır!";
+                    } else
+                      return "Lütfen Bu Alanı Boş Geçmeyiniz";
+                    return null;
                   },
                 ),
                 Row(
@@ -320,17 +389,21 @@ class _KayitGirisState extends State<KayitGiris> {
       ));
 
   void _saveFormData(BuildContext context2) {
-    auth
-        .createUserWithEmailAndPassword(email: _email, password: _sifre)
-        .then((_) {
-        userBox.put('isim', _isim);
-        userBox.put('boy', _boy);
-        userBox.put('kilo', _kilo);
-        userBox.put('yas', _yas);
-      _loggedIn = true;
-      
-      _yonlendir(context2);
-    });
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        auth
+            .createUserWithEmailAndPassword(email: _email, password: _sifre)
+            .then((_) {
+          userBox.put('isim', _isim);
+          userBox.put('boy', _boy);
+          userBox.put('kilo', _kilo);
+          userBox.put('yas', _yas);
+          _loggedIn = true;
+
+          _yonlendir(context2);
+        });
+      });
+    }
   }
 
   void _yonlendir(BuildContext context2) {
@@ -368,9 +441,15 @@ class _KayitGirisState extends State<KayitGiris> {
   }
 
   void _loginController(BuildContext context2) {
-    auth.signInWithEmailAndPassword(email: _email, password: _sifre).then((_) {
-      _yonlendir(context2);
-    });
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        auth
+            .signInWithEmailAndPassword(email: _email, password: _sifre)
+            .then((_) {
+          _yonlendir(context2);
+        });
+      });
+    }
   }
 
   void popf(BuildContext context) {
@@ -378,24 +457,26 @@ class _KayitGirisState extends State<KayitGiris> {
   }
 
   void _resetPassword(BuildContext context) {
-    setState(() {
-      auth.sendPasswordResetEmail(email: _email);
-      popf(context);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => TextButton(
-                  child: Text(
-                    'Şifre Sıfırlama Bağlantınız Gönderildi Lütfen Buraya Tıklayınız',
-                    style: TextStyle(color: Colors.orange),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => _GirisEkrani()));
-                  })));
-    });
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        auth.sendPasswordResetEmail(email: _email);
+        popf(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TextButton(
+                    child: Text(
+                      'Şifre Sıfırlama Bağlantınız Gönderildi Lütfen Buraya Tıklayınız',
+                      style: TextStyle(color: Colors.orange),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => _GirisEkrani()));
+                    })));
+      });
+    }
   }
 }
