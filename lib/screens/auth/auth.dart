@@ -33,7 +33,7 @@ class _KayitGirisState extends State<KayitGiris> {
         appBar: AppBar(
           title: Text(
             'Sağlık Asistanı',
-            style: TextStyle(color: Colors.orangeAccent),
+            style: TextStyle(color: Colors.orange),
           ),
           centerTitle: true,
           backgroundColor: Colors.black,

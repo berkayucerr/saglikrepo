@@ -255,7 +255,7 @@ class _ProfilState extends State<Profil> {
           ],
           title: Text(
             'Profil Ekranı',
-            style: TextStyle(color: Colors.orangeAccent),
+            style: TextStyle(color: Colors.orange),
           ),
           centerTitle: true,
         ),

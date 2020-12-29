@@ -97,7 +97,7 @@ class _YeniSporState extends State<YeniSpor> {
           backgroundColor: Colors.black,
           title: Text(
             'Spor Aktivitesi',
-            style: TextStyle(color: Colors.orangeAccent),
+            style: TextStyle(color: Colors.orange),
           ),
           centerTitle: true,
         ),

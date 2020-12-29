@@ -36,7 +36,7 @@ class _Spor extends State {
               backgroundColor: Colors.black,
               title: Text(
                 'Spor',
-                style: TextStyle(color: Colors.orangeAccent),
+                style: TextStyle(color: Colors.orange),
               ),
               centerTitle: true,
             ),
@@ -66,7 +66,7 @@ class _Spor extends State {
               backgroundColor: Colors.black,
               title: Text(
                 'Spor',
-                style: TextStyle(color: Colors.orangeAccent),
+                style: TextStyle(color: Colors.orange),
               ),
               centerTitle: true,
               actions: [
@@ -130,18 +130,18 @@ class _Spor extends State {
               ],
             ),
             body: Container(
-              color: carbonBlack,
+              color: Colors.black,
               child: ListView.builder(
                 itemCount: aktivite_listesi.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.orangeAccent,
+                    color: carbonBlack,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     elevation: 4,
                     child: ListTile(
                       leading: IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: Icon(Icons.delete,color: Colors.orange,),
                           onPressed: () {
                             setState(() {
                               sporBox.deleteAt(index);
@@ -154,9 +154,9 @@ class _Spor extends State {
                           aktivite_listesi[index].baslangiczamani +
                           ' ' +
                           '- ' +
-                          aktivite_listesi[index].bitiszamani),
+                          aktivite_listesi[index].bitiszamani,style: TextStyle(color:Colors.orange),),
                       subtitle: Text(aktivite_listesi[index].kalori.toString() +
-                          ' Kalori'),
+                          ' Kalori',style: TextStyle(color:Colors.green),),
                       onTap: () {
                         Navigator.push(
                           context,

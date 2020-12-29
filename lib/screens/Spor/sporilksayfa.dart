@@ -38,7 +38,7 @@ import 'create_new_activity.dart';
                   'Yürüyüş Aktivitesi (4 KM hız)',
                   style: TextStyle(color: Colors.black, fontSize: 30),
                 ),
-                tileColor: Colors.orangeAccent,
+                tileColor: Colors.orange,
                 onTap: () {
                   Navigator.pushReplacement(
                       context,
@@ -50,7 +50,7 @@ import 'create_new_activity.dart';
                 height: 100,
               ),
               ListTile(
-                tileColor: Colors.orangeAccent,
+                tileColor: Colors.orange,
                 title: Text('Koşu Aktivitesi (8 KM hız)',
                     style: TextStyle(color: Colors.black, fontSize: 30)),
                 onTap: () {
@@ -64,7 +64,7 @@ import 'create_new_activity.dart';
                 height: 100,
               ),
               ListTile(
-                tileColor: Colors.orangeAccent,
+                tileColor: Colors.orange,
                 title: Text('Bisiklet Aktivitesi (15 KM hız)',
                     style: TextStyle(color: Colors.black, fontSize: 30)),
                 onTap: () {

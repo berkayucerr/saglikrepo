@@ -48,7 +48,7 @@ class _GenelState extends State<Genel> {
             visible: !appbarControl,
             child: Text(
               'Genel',
-              style: TextStyle(color: Colors.orangeAccent),
+              style: TextStyle(color: Colors.orange),
             ),
           ),
           Visibility(

@@ -67,7 +67,7 @@ class _DiyetState extends State<Diyet> {
             backgroundColor: Colors.black,
             title: Text(
               'Diyet  (Toplam Kalori: ${_toplamKalori})',
-              style: TextStyle(color: Colors.orangeAccent),
+              style: TextStyle(color: Colors.orange),
             ),
             centerTitle: true,
             actions: <Widget>[
@@ -131,18 +131,18 @@ class _DiyetState extends State<Diyet> {
             ],
           ),
           body: Container(
-            color: carbonBlack,
+            color: Colors.black,
             child: ListView.builder(
               itemCount: liste.length,
               itemBuilder: (context, index) {
                 return Card(
-                  color: Colors.orangeAccent,
+                  color: carbonBlack,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   elevation: 2,
                   child: ListTile(
                     leading: IconButton(
-                        icon: Icon(Icons.delete),
+                        icon: Icon(Icons.delete,color: Colors.orange,),
                         onPressed: () {
                           setState(() {
                             besinBox.deleteAt(index);
@@ -152,10 +152,10 @@ class _DiyetState extends State<Diyet> {
                         }),
                     title: Text(liste[index].isim +
                         ' ${liste[index].miktar}' +
-                        ' adet'),
+                        ' adet',style: TextStyle(color: Colors.orange),),
                     subtitle: Text(liste[index].kalori.toString() +
                         ' Kalori' +
-                        '      Toplam Kalori=${liste[index].miktar * liste[index].kalori}'),
+                        '      Toplam Kalori=${liste[index].miktar * liste[index].kalori}',style: TextStyle(color: Colors.green)),
                   ),
                 );
               },
@@ -218,7 +218,7 @@ class DiyetEkle extends State<NewDiyet> {
       appBar: AppBar(
         title: Text(
           'Yeni Diyet Ekle',
-          style: TextStyle(color: Colors.orangeAccent),
+          style: TextStyle(color: Colors.orange),
         ),
         centerTitle: true,
         backgroundColor: Colors.black,
