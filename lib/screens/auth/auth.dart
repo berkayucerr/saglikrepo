@@ -92,6 +92,7 @@ class _KayitGirisState extends State<KayitGiris> {
             child: ListView(
               children: <Widget>[
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -120,6 +121,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   obscureText: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -201,6 +203,7 @@ class _KayitGirisState extends State<KayitGiris> {
             child: ListView(
               children: <Widget>[
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -228,6 +231,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -256,6 +260,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -283,6 +288,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -310,6 +316,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -339,6 +346,7 @@ class _KayitGirisState extends State<KayitGiris> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   obscureText: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(

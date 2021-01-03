@@ -52,6 +52,7 @@ class _ProfilState extends State<Profil> {
             child: ListView(
               children: <Widget>[
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -77,6 +78,7 @@ class _ProfilState extends State<Profil> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -103,6 +105,7 @@ class _ProfilState extends State<Profil> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -127,6 +130,7 @@ class _ProfilState extends State<Profil> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -134,6 +138,7 @@ class _ProfilState extends State<Profil> {
                       ),
                       labelText: "Yaş",
                       hintText: "Yaş",
+                      
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.orangeAccent))),
                   validator: (value) {
@@ -151,6 +156,7 @@ class _ProfilState extends State<Profil> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -180,6 +186,7 @@ class _ProfilState extends State<Profil> {
                   height: 10,
                 ),
                 TextFormField(
+                  style: TextStyle(color: Colors.orange),
                   obscureText: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(
