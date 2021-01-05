@@ -33,7 +33,7 @@ class _ProfilState extends State<Profil> {
   }
 
   var user = FirebaseAuth.instance.currentUser;
-  Widget BilgileriDuzenle() {
+  Widget BilgileriDuzenle(BuildContext context2){
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -220,6 +220,7 @@ class _ProfilState extends State<Profil> {
                         if (_yas != null) userBox.put('yas', _yas);
                         if (_kilo != null) userBox.put('kilo', _kilo);
                         Navigator.pop(context);
+                        Navigator.pop(context2);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Home()));
                       }
@@ -235,7 +236,7 @@ class _ProfilState extends State<Profil> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context2) {
     k.mail = FirebaseAuth.instance.currentUser.email;
     return Scaffold(
         appBar: AppBar(
@@ -246,7 +247,7 @@ class _ProfilState extends State<Profil> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BilgileriDuzenle()));
+                        builder: (context) => BilgileriDuzenle(context2)));
               },
               tooltip: 'Profil Bilgilerini Düzenle',
               icon: Icon(Icons.edit),
